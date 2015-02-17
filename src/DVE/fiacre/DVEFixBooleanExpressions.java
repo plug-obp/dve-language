@@ -1,6 +1,6 @@
-package org.cte.DVE.fiacre;
+package DVE.fiacre;
 
-import org.cte.DVE.compiler.builder.DVEBuilder;
+import DVE.compiler.builder.DVEBuilder;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import DVE.model.Expression;

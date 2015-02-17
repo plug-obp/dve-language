@@ -1,4 +1,4 @@
-package org.cte.DVE.fiacre;
+package DVE.fiacre;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ import obp.fiacre.model.Type;
 import obp.fiacre.model.Variable;
 import obp.fiacre.util.FiacreBuilder;
 
-import org.cte.DVE.evaluation.StaticEvaluator;
+import DVE.evaluation.StaticEvaluator;
 
 import DVE.model.Assignment;
 import DVE.model.ChannelDeclaration;

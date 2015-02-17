@@ -1,0 +1,10 @@
+dependencies {
+	compile project(':DVE')
+	compile project(':Fiacre')
+	testCompile project(':Fiacre2JoMC')
+	testCompile project(path: ':Fiacre2JoMC', configuration: 'tests')
+}
+
+clean << {
+	project.delete "tmp"
+}

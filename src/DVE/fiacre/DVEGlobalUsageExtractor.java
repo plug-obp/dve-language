@@ -1,4 +1,4 @@
-package org.cte.DVE.fiacre;
+package DVE.fiacre;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.cte.DVE.evaluation.StaticEvaluator;
+import DVE.evaluation.StaticEvaluator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import DVE.model.util.ModelSwitch;

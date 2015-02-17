@@ -1,4 +1,4 @@
-package org.cte.DVE.fiacre;
+package DVE.fiacre;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
