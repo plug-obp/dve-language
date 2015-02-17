@@ -1,0 +1,30 @@
+int mydata[1024*1024];
+byte stateVector[10];
+channel {int} fromContext[1];
+
+
+process Behavior {
+	int var=-1;
+	state s0;
+	init s0;
+trans 
+	s0 -> s0 {
+		sync fromContext?var; 
+		effect
+			stateVector[var] = (stateVector[var]+1)%2,
+			mydata[0] = (mydata[0] + 1) % 101;
+	};
+}
+
+process Context {
+	int var=0;
+	state s0;
+	init s0;
+trans
+	s0 -> s0 {
+		sync fromContext!var;
+		effect var = (var + 1) % 10;
+	};
+}
+
+system async;

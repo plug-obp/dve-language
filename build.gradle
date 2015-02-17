@@ -1,0 +1,21 @@
+configurations { antlr4 }
+dependencies {
+	antlr4  "org.antlr:antlr4:4.5"
+
+	compile "org.antlr:antlr4:4.5"
+	compile 'org.eclipse.emf:org.eclipse.emf.common:2.11.0-v20150123-0347'
+	compile 'org.eclipse.emf:org.eclipse.emf.ecore:2.11.0-v20150123-0347'
+}
+
+task generateAntlr4Parser(type: JavaExec) {
+	def generatedPath = file('generated')
+	generatedPath.mkdir()
+	classpath configurations.antlr4
+	main = "org.antlr.v4.Tool"
+	args = ["grammar/DVE.g4", "-package", "DVE.grammar", "-o", "generated/DVE"]
+}
+
+task generateEcore(type: org.ensta.Ecore2JavaGenerationTask)
+
+sourceSets.main.java.srcDir 'generated'
+compileJava.dependsOn generateAntlr4Parser, generateEcore
