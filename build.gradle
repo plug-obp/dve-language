@@ -7,6 +7,7 @@ dependencies {
 	compile 'org.eclipse.emf:org.eclipse.emf.ecore:2.11.0-v20150123-0347'
 }
 
+apply from: '../gradle/antlr4.gradle'
 task generateAntlr4Parser(type: JavaExec) {
 	def generatedPath = file('generated')
 	generatedPath.mkdir()
@@ -16,7 +17,7 @@ task generateAntlr4Parser(type: JavaExec) {
 		, "-package"
 		, "DVE.grammar"
 		, "-o"
-		, file("generated/DVE/grammar")]
+		, antlr4OutputPath("generated/DVE")]
 }
 
 task generateEcore(type: org.ensta.Ecore2JavaGenerationTask)
