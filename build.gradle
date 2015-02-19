@@ -12,7 +12,11 @@ task generateAntlr4Parser(type: JavaExec) {
 	generatedPath.mkdir()
 	classpath configurations.antlr4
 	main = "org.antlr.v4.Tool"
-	args = ["grammar/DVE.g4", "-package", "DVE.grammar", "-o", "generated/DVE"]
+	args = ["grammar/DVE.g4"
+		, "-package"
+		, "DVE.grammar"
+		, "-o"
+		, file("generated/DVE/grammar")]
 }
 
 task generateEcore(type: org.ensta.Ecore2JavaGenerationTask)
