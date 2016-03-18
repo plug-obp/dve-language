@@ -25,7 +25,7 @@ public class DVE2FiacreTest extends AbstractDVEExplorationTest {
 	
 	@Test
 	public void testExamples() throws Exception {
-		File testDir = new File("../DVE/examples/BEEM/generated");
+		File testDir = new File("../DVE/examples/BEEM");
 		
 		list(testDir);
 	}
