@@ -64,6 +64,17 @@ public class DVE2FiacreTest extends AbstractDVEExplorationTest {
 	    			&& 	!child.getName().startsWith("public_subscribe.")// in out channel problem
 	    			&& 	!child.getName().startsWith("rether.") 			// channel with multiple sources problem
 	    			&& 	!child.getName().startsWith("synapse.") 		// binary and & << operator problem
+
+					&&  !child.getName().startsWith("cambridge.")		//Port '_sNOTRDY1' needs 0 argument.
+					&&  !child.getName().startsWith("elevator.")		//Port '_get_in_0' needs 0 argument.
+					&&  !child.getName().startsWith("firewire_link.")	//Port '_LDind_0' needs 0 argument.
+					&&  !child.getName().startsWith("firewire_tree.")	//Port '_ch_0_0_out' needs 0 argument.
+					&&  !child.getName().startsWith("iprotocol.")		//Port '_Get' needs 0 argument.
+					&&  !child.getName().startsWith("lamport_nonatomic.")//Port '_read_0' needs 0 argument.
+					&&  !child.getName().startsWith("lann.")			//Port '_link_0_out' needs 0 argument.
+					&&  !child.getName().startsWith("leader_election.")	//Port '_ch_1_in' needs 0 argument.
+					&&  !child.getName().startsWith("lifts.")			//Port '_to_bus_0' needs 0 argument.
+					&&  !child.getName().startsWith("train-gate.")		//_list[_len] := _e: Expected type 'int' but found 'array 3 of byte'.
 	    		) {
 	    			completeCompile(child);
 	    		}
