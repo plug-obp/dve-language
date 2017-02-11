@@ -2,13 +2,13 @@ package DVE.compiler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import DVE.grammar.DVELexer;
 import DVE.grammar.DVEParser;
 //import org.eclipse.emf.common.util.URI;
@@ -18,7 +18,6 @@ import DVE.grammar.DVEParser;
 //import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 //import org.eclipse.emf.ecore.util.EcoreUtil;
 //import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-
 import DVE.model.System;
 
 public class DVECompiler {
@@ -65,9 +64,9 @@ public class DVECompiler {
 		return system;
 	}
 
-	private static void addDanglingEObjects() {
-		
-	}
+//	private static void addDanglingEObjects() {
+//		
+//	}
 }
 
 
