@@ -9,14 +9,10 @@ import org.junit.Test;
 import DVE.model.System;
 
 public class DVECompilerTests {
-	@Test
-	public void testBSystem() {
-		assertFile("examples/myexpl/bsystem.dve");
-	}
 	
 	@Test
 	public void testExamples() {
-		File testDir = new File("examples/BEEM");
+		File testDir = new File("../beem-benchmark/original-benchmark");
 		
 		list(testDir);
 	}

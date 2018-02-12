@@ -29,14 +29,10 @@ public class DVEGrammarTest {
 		assertParse("int");
 		assertParse("byte");
 	}
-	@Test
-	public void testBSystem() {
-		assertFile("examples/myexpl/bsystem.dve");
-	}
 	
 	@Test
 	public void testExamples() {
-		File testDir = new File("examples/BEEM");
+		File testDir = new File("../beem-benchmark/original-benchmark");
 		System.out.println(new File(".").getAbsolutePath());
 		
 		list(testDir);

@@ -1,13 +1,25 @@
-configurations { antlr4 }
-dependencies {
-	antlr4  "org.antlr:antlr4:4.5"
+apply plugin: 'org.ensta.ecore2java'
 
-	compile "org.antlr:antlr4:4.5"
-	compile 'org.eclipse.emf:org.eclipse.emf.common:2.11.0-v20150123-0347'
-	compile 'org.eclipse.emf:org.eclipse.emf.ecore:2.11.0-v20150123-0347'
+configurations {
+	antlr4
+	ecore
+	compile.extendsFrom antlr4
+	compile.extendsFrom ecore
+}
+dependencies {
+	antlr4  group: 'org.antlr', name: 'antlr4' , version: '4.5.+'
+
+    compile group: 'org.eclipse.emf', name: 'org.eclipse.emf.common',               version: '2.11.0-v20150123-0347'
+    compile group: 'org.eclipse.emf', name: 'org.eclipse.emf.ecore',                version: '2.11.0-v20150123-0347'
+    compile group: 'org.eclipse.emf', name: 'org.eclipse.emf.ecore.xmi',            version: '2.11.0-v20150123-0347'
 }
 
-apply from: '../gradle/antlr4.gradle'
+String antlr4OutputPath(String path) {
+	if (System.properties['os.name'].replaceAll(' ', '').toLowerCase().contains('win')) {
+		return file(path + '/grammar')
+	}
+	return file(path)
+}
 task generateAntlr4Parser(type: JavaExec) {
 	def generatedPath = file('generated')
 	generatedPath.mkdir()
@@ -20,7 +32,7 @@ task generateAntlr4Parser(type: JavaExec) {
 		, antlr4OutputPath("generated/DVE")]
 }
 
-task generateEcore(type: org.ensta.Ecore2JavaGenerationTask)
-
 sourceSets.main.java.srcDir 'generated'
-compileJava.dependsOn generateAntlr4Parser, generateEcore
+compileJava.dependsOn generateAntlr4Parser, ecore2java
+
+clean { doLast { project.delete "tmp" } }
