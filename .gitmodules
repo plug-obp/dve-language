@@ -1,0 +1,4 @@
+[submodule "beem-benchmark"]
+	path = beem-benchmark
+	url = https://github.com/plug-obp/beem-benchmark.git
+	branch = master
