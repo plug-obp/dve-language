@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="DVE" nsURI="DVE" nsPrefix="DVE">
+  <eSubpackages name="model" nsURI="model" nsPrefix="model">
+    <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//model/Element"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NamedDeclaration" abstract="true"
+        eSuperTypes="#//model/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CompositeDeclaration" abstract="true"
+        eSuperTypes="#//model/NamedDeclaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" ordered="false"
+          upperBound="-1" eType="#//model/NamedDeclaration" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="#//model/CompositeDeclaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="processes" ordered="false"
+          upperBound="-1" eType="#//model/Process" eOpposite="#//model/Process/system"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" lowerBound="1"
+          eType="#//model/SystemProperties" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//model/Element"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerType" eSuperTypes="#//model/Type"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ByteType" eSuperTypes="#//model/Type"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ArrayType" eSuperTypes="#//model/Type">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elementType" lowerBound="1"
+          eType="#//model/Type" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="size" lowerBound="1"
+          eType="#//model/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableDeclaration" eSuperTypes="#//model/NamedDeclaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//model/Type" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initial" lowerBound="1"
+          eType="#//model/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConstantDeclaration" eSuperTypes="#//model/VariableDeclaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ChannelDeclaration" eSuperTypes="#//model/NamedDeclaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TypedChannelDeclaration" eSuperTypes="#//model/ChannelDeclaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="types" ordered="false"
+          upperBound="-1" eType="#//model/Type" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bufferSize" lowerBound="1"
+          eType="#//model/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//model/CompositeDeclaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+          eType="#//model/System" eOpposite="#//model/System/processes"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="states" ordered="false"
+          upperBound="-1" eType="#//model/State" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="accepting" ordered="false"
+          upperBound="-1" eType="#//model/StateReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="commited" ordered="false"
+          upperBound="-1" eType="#//model/StateReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initial" lowerBound="1"
+          eType="#//model/StateReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" ordered="false"
+          upperBound="-1" eType="#//model/Transition" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//model/NamedDeclaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//model/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1"
+          eType="#//model/StateReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="#//model/StateReference"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" lowerBound="1"
+          eType="#//model/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sync" lowerBound="1"
+          eType="#//model/Synchronization" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="effect" ordered="false"
+          upperBound="-1" eType="#//model/Assignment" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Synchronization" abstract="true" eSuperTypes="#//model/Element">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="channel" lowerBound="1"
+          eType="#//model/ChannelReference" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//model/Expression"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputSynchronization" eSuperTypes="#//model/Synchronization"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OutputSynchronization" eSuperTypes="#//model/Synchronization"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemProperties" eSuperTypes="#//model/Element">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemType" lowerBound="1"
+          eType="#//model/SystemType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
+          eType="#//model/ProcessReference" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//model/Element">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//model/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//model/Expression"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemType" abstract="true" eSuperTypes="#//model/Element"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Synchronous" eSuperTypes="#//model/SystemType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Asynchronous" eSuperTypes="#//model/SystemType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true" eSuperTypes="#//model/Element"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//model/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+          eType="#//model/UnaryOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1"
+          eType="#//model/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BinaryExpression" eSuperTypes="#//model/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+          eType="#//model/BinaryOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operands" ordered="false"
+          lowerBound="2" upperBound="2" eType="#//model/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="BinaryOperator">
+      <eLiterals name="IMPLY"/>
+      <eLiterals name="OR"/>
+      <eLiterals name="AND"/>
+      <eLiterals name="BOR"/>
+      <eLiterals name="BAND"/>
+      <eLiterals name="BXOR"/>
+      <eLiterals name="EQ"/>
+      <eLiterals name="NEQ"/>
+      <eLiterals name="LT"/>
+      <eLiterals name="LEQ"/>
+      <eLiterals name="GT"/>
+      <eLiterals name="GEQ"/>
+      <eLiterals name="SHL"/>
+      <eLiterals name="SHR"/>
+      <eLiterals name="PLUS"/>
+      <eLiterals name="MINUS"/>
+      <eLiterals name="MULT"/>
+      <eLiterals name="DIV"/>
+      <eLiterals name="MOD"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="UnaryOperator">
+      <eLiterals name="MINUS"/>
+      <eLiterals name="BNOT"/>
+      <eLiterals name="NOT"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Reference" abstract="true" eSuperTypes="#//model/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="refName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableReference" eSuperTypes="#//model/Reference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ref" lowerBound="1" eType="#//model/VariableDeclaration"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ChannelReference" eSuperTypes="#//model/Reference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ref" lowerBound="1" eType="#//model/ChannelDeclaration"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessReference" eSuperTypes="#//model/Reference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ref" lowerBound="1" eType="#//model/Process"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StateReference" eSuperTypes="#//model/Reference">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ref" lowerBound="1" eType="#//model/State"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PrefixedReference" abstract="true"
+        eSuperTypes="#//model/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prefix" lowerBound="1"
+          eType="#//model/ProcessReference" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessVariableReference" eSuperTypes="#//model/VariableReference #//model/PrefixedReference"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProcessStateReference" eSuperTypes="#//model/StateReference #//model/PrefixedReference"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IndexedExpression" eSuperTypes="#//model/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="base" lowerBound="1"
+          eType="#//model/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="index" lowerBound="1"
+          eType="#//model/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Literal" abstract="true" eSuperTypes="#//model/Expression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//model/Literal"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TrueLiteral" eSuperTypes="#//model/BooleanLiteral"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FalseLiteral" eSuperTypes="#//model/BooleanLiteral"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NumberLiteral" eSuperTypes="#//model/Literal">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger">
+        <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+          <details key="body" value="ArrayLiteral"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ArrayLiteral" eSuperTypes="#//model/Literal">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="values" ordered="false"
+          upperBound="-1" eType="#//model/Expression" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

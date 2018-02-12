@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/DVE/generated" modelPluginID="DVE" modelName="DVE"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    bundleManifest="false" complianceLevel="7.0" copyrightFields="false" operationReflection="true"
+    importOrganizing="true">
+  <foreignModel>DVE.ecore</foreignModel>
+  <genPackages prefix="DVE" disposableProviderFactory="true" ecorePackage="DVE.ecore#/">
+    <nestedGenPackages prefix="Model" disposableProviderFactory="true" ecorePackage="DVE.ecore#//model">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="DVE.ecore#//model/BinaryOperator">
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/IMPLY"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/OR"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/AND"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/BOR"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/BAND"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/BXOR"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/EQ"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/NEQ"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/LT"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/LEQ"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/GT"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/GEQ"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/SHL"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/SHR"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/PLUS"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/MINUS"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/MULT"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/DIV"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/BinaryOperator/MOD"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="DVE.ecore#//model/UnaryOperator">
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/UnaryOperator/MINUS"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/UnaryOperator/BNOT"/>
+        <genEnumLiterals ecoreEnumLiteral="DVE.ecore#//model/UnaryOperator/NOT"/>
+      </genEnums>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/Element"/>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/Declaration"/>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/NamedDeclaration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DVE.ecore#//model/NamedDeclaration/name"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/CompositeDeclaration">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/CompositeDeclaration/declarations"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/System">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference DVE.ecore#//model/System/processes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/System/properties"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/Type"/>
+      <genClasses ecoreClass="DVE.ecore#//model/IntegerType"/>
+      <genClasses ecoreClass="DVE.ecore#//model/ByteType"/>
+      <genClasses ecoreClass="DVE.ecore#//model/ArrayType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/ArrayType/elementType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/ArrayType/size"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/VariableDeclaration">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/VariableDeclaration/type"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/VariableDeclaration/initial"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/ConstantDeclaration"/>
+      <genClasses ecoreClass="DVE.ecore#//model/ChannelDeclaration"/>
+      <genClasses ecoreClass="DVE.ecore#//model/TypedChannelDeclaration">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/TypedChannelDeclaration/types"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/TypedChannelDeclaration/bufferSize"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/Process">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference DVE.ecore#//model/Process/system"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Process/states"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Process/accepting"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Process/commited"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Process/initial"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Process/transitions"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/State"/>
+      <genClasses ecoreClass="DVE.ecore#//model/Transition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Transition/from"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Transition/to"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Transition/guard"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Transition/sync"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Transition/effect"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/Synchronization">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Synchronization/channel"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Synchronization/value"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/InputSynchronization"/>
+      <genClasses ecoreClass="DVE.ecore#//model/OutputSynchronization"/>
+      <genClasses ecoreClass="DVE.ecore#//model/SystemProperties">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/SystemProperties/systemType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/SystemProperties/property"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/Assignment">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Assignment/lhs"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/Assignment/rhs"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/SystemType"/>
+      <genClasses ecoreClass="DVE.ecore#//model/Synchronous"/>
+      <genClasses ecoreClass="DVE.ecore#//model/Asynchronous"/>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/Expression"/>
+      <genClasses ecoreClass="DVE.ecore#//model/UnaryExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DVE.ecore#//model/UnaryExpression/operator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/UnaryExpression/operand"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/BinaryExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DVE.ecore#//model/BinaryExpression/operator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/BinaryExpression/operands"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/Reference">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DVE.ecore#//model/Reference/refName"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/VariableReference">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference DVE.ecore#//model/VariableReference/ref"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/ChannelReference">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference DVE.ecore#//model/ChannelReference/ref"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/ProcessReference">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference DVE.ecore#//model/ProcessReference/ref"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/StateReference">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference DVE.ecore#//model/StateReference/ref"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/PrefixedReference">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/PrefixedReference/prefix"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/ProcessVariableReference"/>
+      <genClasses ecoreClass="DVE.ecore#//model/ProcessStateReference"/>
+      <genClasses ecoreClass="DVE.ecore#//model/IndexedExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/IndexedExpression/base"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/IndexedExpression/index"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="DVE.ecore#//model/Literal"/>
+      <genClasses ecoreClass="DVE.ecore#//model/BooleanLiteral"/>
+      <genClasses ecoreClass="DVE.ecore#//model/TrueLiteral"/>
+      <genClasses ecoreClass="DVE.ecore#//model/FalseLiteral"/>
+      <genClasses ecoreClass="DVE.ecore#//model/NumberLiteral">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DVE.ecore#//model/NumberLiteral/value"/>
+      </genClasses>
+      <genClasses ecoreClass="DVE.ecore#//model/ArrayLiteral">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DVE.ecore#//model/ArrayLiteral/values"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>
