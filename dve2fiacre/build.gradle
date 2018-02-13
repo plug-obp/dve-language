@@ -1,4 +1,5 @@
 dependencies {
+	compile group: 'args4j', name: 'args4j', version: '2.33'
 	compile project(':dve-model')
 	
 	compile 'obp:OBP:1.5.1-light'
@@ -30,3 +31,6 @@ task cleanOBPDependency(type: Jar) {
 		include 'DVE/**'
 	}
 }
+
+apply plugin: 'application'
+mainClassName = 'DVE.fiacre.DVE2FiacreMain'
