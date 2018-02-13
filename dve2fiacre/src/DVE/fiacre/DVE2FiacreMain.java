@@ -55,6 +55,12 @@ public class DVE2FiacreMain {
 		try {
 			DVE.model.System sys = DVECompiler.compile(inDVE);
 			Program fcrProgram = new DVE2Fiacre().transform(sys);
+
+			if (fcrProgram == null) {
+				System.err.println("The fiacre program was not generated for: '" + inDVE.getName() + "'");
+				return;
+			}
+
 			FiacrePrinter fcrPrinter = new FiacrePrinter();
 			String programString = fcrPrinter.print(fcrProgram);
 
@@ -65,6 +71,9 @@ public class DVE2FiacreMain {
 			BufferedWriter os = new BufferedWriter(new FileWriter(outFiacre));
 			os.write(programString);
 			os.close();
+
+			System.out.println("The fiacre code was generated in: " + outFiacre);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
