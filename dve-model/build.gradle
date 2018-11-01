@@ -1,4 +1,16 @@
-apply plugin: 'org.ensta.ecore2java'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://dl.bintray.com/ciprian-teodorov/CipT-artefacts/"
+        }
+    }
+    dependencies {
+        classpath group: 'fr.ensta', name: 'ecore2java', version: '1.5'
+    }
+}
+apply plugin: 'fr.ensta.ecore2java'
+
 
 configurations {
 	antlr4
@@ -20,9 +32,9 @@ String antlr4OutputPath(String path) {
 	}
 	return file(path)
 }
+def generatedPath = file('generated')
+generatedPath.mkdir()
 task generateAntlr4Parser(type: JavaExec) {
-	def generatedPath = file('generated')
-	generatedPath.mkdir()
 	classpath configurations.antlr4
 	main = "org.antlr.v4.Tool"
 	args = ["grammar/DVE.g4"
@@ -30,6 +42,11 @@ task generateAntlr4Parser(type: JavaExec) {
 		, "DVE.grammar"
 		, "-o"
 		, antlr4OutputPath("generated/DVE")]
+}
+
+ecore2java {
+    genModelPath = file('model/DVE.genmodel')
+    outputDir = generatedPath
 }
 
 sourceSets.main.java.srcDir 'generated'

@@ -1,12 +1,10 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven { url "http://mocs-artefacts.ensta-bretagne.fr/plug-repo/" }
-        maven { url "https://dl.bintray.com/ciprian-teodorov/CipT-artefacts/"}
+        jcenter()
+        maven { url "https://dl.bintray.com/plug-obp/maven" }
     }
     dependencies {
         classpath group: 'fr.ensta-bretagne', name: 'plug-plugin', version: '+'
-        classpath group: 'org.ensta', name: 'ecore2java', version: '+'
     }
 }
 

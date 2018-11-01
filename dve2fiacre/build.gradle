@@ -1,14 +1,19 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
 dependencies {
 	compile group: 'args4j', name: 'args4j', version: '2.33'
-	compile project(':dve-model')
+	compile group: 'fr.ensta-bretagne', name: 'dve-model', version: '+'
 	
 	compile 'obp:OBP:1.5.1-light'
-	compile 'obp:antlr4-runtime:4.5'
+	compile  group: 'org.antlr', name: 'antlr4' , version: '4.5.+'
 	compile 'obp:basics:2.0'
 	compile 'obp:beaver-rt:0.9.11'
-	compile 'obp:ecj:4.4.1'
+	//compile 'obp:ecj:4.4.1'
 	compile 'obp:java-cup:0.11a'
-	compile 'obp:luaj-jse:3.0-alpha2'
+	//compile 'obp:luaj-jse:3.0-alpha2'
 	
 	//compile project(':Fiacre')
 	//testCompile project(':Fiacre2JoMC')

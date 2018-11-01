@@ -54,7 +54,7 @@ public class AbstractDVEExplorationTest {//extends AbstractFiacreToExplorerTest 
 //	}
 //
 //	public String compile2fiacre(String filename) throws IOException {
-//		DVE.model.System sys = null;
+//		DVE.model_view.System sys = null;
 //		try {
 //			sys = DVECompiler.compile(new File(filename));
 //		} catch (Exception e) {
