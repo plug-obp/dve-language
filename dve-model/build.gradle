@@ -24,6 +24,9 @@ dependencies {
     compile group: 'org.eclipse.emf', name: 'org.eclipse.emf.common',               version: '2.11.0-v20150123-0347'
     compile group: 'org.eclipse.emf', name: 'org.eclipse.emf.ecore',                version: '2.11.0-v20150123-0347'
     compile group: 'org.eclipse.emf', name: 'org.eclipse.emf.ecore.xmi',            version: '2.11.0-v20150123-0347'
+	// https://mvnrepository.com/artifact/junit/junit
+	testCompile group: 'junit', name: 'junit', version: '4.7'
+
 }
 
 String antlr4OutputPath(String path) {
