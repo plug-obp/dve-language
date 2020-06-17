@@ -1,12 +1,19 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
+repositories {
+	maven {
+		url "https://dl.bintray.com/plug-obp/maven"
+//            artifactUrls "https://dl.bintray.com/plug-obp/maven"
+		metadataSources {
+//                mavenPom()
+			artifact()
+			ignoreGradleMetadataRedirection()
+		}
+	}
 }
+
 dependencies {
 	compile group: 'args4j', name: 'args4j', version: '2.33'
 	compile group: 'fr.ensta-bretagne', name: 'dve-model', version: '+'
-	
+
 	compile 'obp:OBP:1.5.1-light'
 	compile  group: 'org.antlr', name: 'antlr4' , version: '4.5.+'
 	compile 'obp:basics:2.0'
@@ -23,8 +30,10 @@ dependencies {
 
 }
 
-clean << {
-	project.delete "tmp"
+clean {
+	doLast {
+		project.delete "tmp"
+	}
 }
 
 // task that creates a new clean OBP jar removing conflicting classes

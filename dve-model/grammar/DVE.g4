@@ -42,9 +42,12 @@ expression : literal												#LiteralExpression
 			| expression operator=(SHL | SHR) expression			#BinaryExpression
 			| expression operator=(LE | LT | GE | GT) expression	#BinaryExpression
 			| expression operator=(EQ | NEQ) expression				#BinaryExpression
-			| expression operator=(BOR | BAND | BXOR) expression	#BinaryExpression
-			| expression operator=(OR | AND) expression				#BinaryExpression
-			| expression operator=(IMPLY | IMPLY) expression		#BinaryExpression
+			| expression operator=(BAND|BAND) expression	        #BinaryExpression
+			| expression operator=(BXOR|BXOR) expression	        #BinaryExpression
+			| expression operator=(BOR|BOR) expression	            #BinaryExpression
+			| expression operator=(AND|AND) expression				#BinaryExpression
+			| expression operator=(OR|OR) expression				#BinaryExpression
+			| expression operator=(IMPLY|IMPLY) expression		    #BinaryExpression
 			;
  
 processBody : variableDecl* states stateTypeDecls transitions?;
