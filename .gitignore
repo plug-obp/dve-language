@@ -8,3 +8,4 @@
 **/.project
 **/out
 .BEEM.trace.swp
+/.build.gradle.swp
