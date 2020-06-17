@@ -1,0 +1,22 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+dependencies {
+	compile group: 'args4j', name: 'args4j', version: '2.33'
+	compile group: 'fr.ensta-bretagne', name: 'dve-model', version: '+'
+
+	testCompile group: 'junit', name: 'junit', version: '4.4'
+
+}
+
+clean {
+	doLast {
+		project.delete "tmp"
+	}
+}
+
+
+apply plugin: 'application'
+mainClassName = 'DVE.vhdl.DVE2VHDLMain'
