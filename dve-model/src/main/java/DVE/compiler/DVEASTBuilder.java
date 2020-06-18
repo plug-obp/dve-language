@@ -201,7 +201,7 @@ public class DVEASTBuilder extends DVEBaseListener {
 	@Override
 	public void exitArrayLiteral(ArrayLiteralContext ctx) {
 		int size = ctx.expressionList().expression().size();
-		Expression l[] = new Expression[size];
+		Expression[] l = new Expression[size];
 
 		for (int i = 0; i < size; i++) {
 			l[size - i - 1] = exprStack.pop();

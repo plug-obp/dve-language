@@ -20,7 +20,7 @@ public class DVE2FiacreMain {
 	@Argument(metaVar="<dve-filename>", usage="DVE input filename")
 	private File inDVE;
 	
-	void doMain(String args[]) {
+	void doMain(String[] args) {
 		CmdLineParser parser = new CmdLineParser(this);
 		
 		try {

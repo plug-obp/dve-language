@@ -21,15 +21,15 @@ import DVE.grammar.DVEParser;
 import DVE.model.System;
 
 public class DVECompiler {
-	private static DVECompiler instance = new DVECompiler();
+	private static final DVECompiler instance = new DVECompiler();
 	
-	public static System compile(File file) throws IOException, Exception {
+	public static System compile(File file) throws Exception {
 		ANTLRFileStream fs = new ANTLRFileStream(file.getAbsolutePath());
 
 		return instance.compile(fs);
 	}
 	
-	public static System compile(String dveProgram) throws IOException, Exception {
+	public static System compile(String dveProgram) throws Exception {
 		ANTLRInputStream is = new ANTLRInputStream(dveProgram);
 		
 		return instance.compile(is);
@@ -46,7 +46,7 @@ public class DVECompiler {
 		
 		try {
 			walker.walk(builder, tree);
-			system = (System) builder.system;
+			system = builder.system;
 		}
 		catch (Error e) {
 			java.lang.System.err.println(e.getMessage());

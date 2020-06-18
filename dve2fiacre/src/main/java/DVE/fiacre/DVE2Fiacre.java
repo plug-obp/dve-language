@@ -32,13 +32,13 @@ import DVE.model.util.ModelSwitch;
 
 public class DVE2Fiacre {
     ModelSwitch<obp.fiacre.model.Element> modelSwitch = new ModelSwitch<obp.fiacre.model.Element>() {
-        Map<Element, obp.fiacre.model.Element> visited = new HashMap<Element, obp.fiacre.model.Element>();
-        Stack<obp.fiacre.model.Element> fcrContext = new Stack<obp.fiacre.model.Element>();
-        obp.fiacre.util.FiacreBuilder fcrBuilder = new FiacreBuilder();
+        final Map<Element, obp.fiacre.model.Element> visited = new HashMap<Element, obp.fiacre.model.Element>();
+        final Stack<obp.fiacre.model.Element> fcrContext = new Stack<obp.fiacre.model.Element>();
+        final obp.fiacre.util.FiacreBuilder fcrBuilder = new FiacreBuilder();
         obp.fiacre.model.TypeDecl byteType;
         DVEGlobalUsageExtractor globalsUsageExtractor;
 
-        Stack<Boolean> rhsContextStack = new Stack<Boolean>();
+        final Stack<Boolean> rhsContextStack = new Stack<Boolean>();
 
         @Override
         public obp.fiacre.model.Element caseSystem(DVE.model.System object) {

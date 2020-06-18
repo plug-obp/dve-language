@@ -79,7 +79,6 @@ public class ReadBeemModelMetaInfo {
 			InputSource input = new InputSource(modelFile.toURI().toASCIIString());
 			reader.parse(input);
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
