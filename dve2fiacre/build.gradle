@@ -1,18 +1,22 @@
+version = '1.0.0'
+
 repositories {
+	mavenCentral()
 	maven {
 		url "https://dl.bintray.com/plug-obp/maven"
-//            artifactUrls "https://dl.bintray.com/plug-obp/maven"
 		metadataSources {
-//                mavenPom()
+			mavenPom()
 			artifact()
 			ignoreGradleMetadataRedirection()
 		}
 	}
 }
 
+apply plugin: 'java'
+
 dependencies {
 	compile group: 'args4j', name: 'args4j', version: '2.33'
-	compile group: 'fr.ensta-bretagne', name: 'dve-model', version: '+'
+	compile project(':dve-model')
 
 	compile 'obp:OBP:1.5.1-light'
 	compile  group: 'org.antlr', name: 'antlr4' , version: '4.5.+'

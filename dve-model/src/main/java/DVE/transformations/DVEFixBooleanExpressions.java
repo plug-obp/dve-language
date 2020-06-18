@@ -1,4 +1,4 @@
-package DVE.fiacre;
+package DVE.transformations;
 
 import DVE.compiler.builder.DVEBuilder;
 import org.eclipse.emf.ecore.util.EcoreUtil;

@@ -1,15 +1,61 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url "https://dl.bintray.com/plug-obp/maven" }
     }
     dependencies {
-        classpath group: 'fr.ensta-bretagne', name: 'plug-plugin', version: '0.7'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+'
     }
 }
 
-apply plugin: 'plug.plugin'
-
 ext.antlr4OutputPath = this.&antlr4OutputPath
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.bintray'
 
+    group='fr.ensta-bretagne'
 
+    // Sets Java compile option to use UTF-8 encoding
+    compileJava.options.encoding = 'UTF-8'
+
+    // Publication configuration
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                //artifact(scJar) { classifier = 'sources' }
+            }
+        }
+        repositories {
+            maven {
+                url = "$project.buildDir/repository"
+            }
+        }
+    }
+
+    bintray {
+        user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+        key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+
+        publications = ['mavenJava']
+
+        pkg {
+            name = project.group
+            repo = 'maven'
+            userOrg = 'dve-language'
+            desc = 'DVE language artifacts'
+            vcsUrl = 'https://github.com/plug-obp'
+            websiteUrl = 'http://www.obpcdl.org'
+            licenses = ['MIT']
+            publicDownloadNumbers = true
+            override = true
+            publish = true
+
+            //Optional version descriptor
+            version {
+                name = project.version //Bintray logical version name
+            }
+        }
+    }
+
+}

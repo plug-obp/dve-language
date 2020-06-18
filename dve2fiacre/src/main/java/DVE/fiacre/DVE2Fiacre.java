@@ -762,9 +762,7 @@ public class DVE2Fiacre {
     Set<String> errorMessages = new LinkedHashSet<String>();
 
     void reportError(String error) {
-        if (!errorMessages.contains(error)) {
-            errorMessages.add(error);
-        }
+        errorMessages.add(error);
     }
 
     public Program transform(System sys) {

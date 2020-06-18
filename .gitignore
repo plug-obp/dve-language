@@ -1,4 +1,4 @@
-/.gradle/
+.gradle/
 **/build/
 **/.settings
 **/bin
@@ -9,3 +9,4 @@
 **/out
 .BEEM.trace.swp
 /.build.gradle.swp
+**/*.lock
