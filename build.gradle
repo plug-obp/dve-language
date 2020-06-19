@@ -7,8 +7,10 @@ buildscript {
     }
 }
 
+version = '1.0.0'
+
 ext.antlr4OutputPath = this.&antlr4OutputPath
-allprojects {
+subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
@@ -23,7 +25,6 @@ allprojects {
         publications {
             mavenJava(MavenPublication) {
                 from components.java
-                //artifact(scJar) { classifier = 'sources' }
             }
         }
         repositories {
@@ -42,7 +43,7 @@ allprojects {
         pkg {
             name = project.group
             repo = 'maven'
-            userOrg = 'dve-language'
+            userOrg = 'plug-obp'
             desc = 'DVE language artifacts'
             vcsUrl = 'https://github.com/plug-obp'
             websiteUrl = 'http://www.obpcdl.org'
