@@ -51,4 +51,20 @@ public class CompositeFrame extends AbstractFrame {
                 ",constants=" + constants +
                 '}';
     }
+
+    @Override
+    public AbstractFrame lookup(String name) {
+        AbstractFrame frame = constants.get(name);
+        if (frame != null) {
+            return frame;
+        }
+        frame = symbols.get(name);
+        if (frame != null) {
+            return frame;
+        }
+        if (parent() == null) {
+            throw new RuntimeException("Symbol " + name + " is not present in scope");
+        }
+        return parent().lookup(name);
+    }
 }

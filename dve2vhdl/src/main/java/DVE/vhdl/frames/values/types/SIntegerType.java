@@ -12,4 +12,9 @@ public class SIntegerType extends SType {
     public String toString() {
         return "INTEGER(8)";
     }
+
+    @Override
+    public boolean subsumes(SType anotherType) {
+        return this == anotherType || anotherType == SByteType.INSTANCE;
+    }
 }

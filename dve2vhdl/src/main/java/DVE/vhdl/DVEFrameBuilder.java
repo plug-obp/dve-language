@@ -6,7 +6,6 @@ import DVE.model.System;
 import DVE.model.*;
 import DVE.model.util.ModelSwitch;
 import DVE.vhdl.frames.*;
-
 import DVE.vhdl.frames.values.types.*;
 
 import java.math.BigInteger;
@@ -48,7 +47,7 @@ public class DVEFrameBuilder {
         public SType caseConstantDeclaration(ConstantDeclaration object) {
             SType type = doSwitch(object.getType());
             CompositeFrame frame = stack.peek();
-            frame.putConstant(object.getName(), new LeafFrame(frame, const_offset, type));
+            frame.putConstant(object.getName(), new ConstantFrame(frame, const_offset, type));
             allocate_constant(type.size());
             return SType.INSTANCE;
         }

@@ -18,6 +18,14 @@ public class SStateType extends SType {
         symbols.put(name, id);
     }
 
+    public int get(String name) {
+        Integer stateID = symbols.get(name);
+        if (stateID == null) {
+            throw new RuntimeException("State named " + name + " is not defined in this scope");
+        }
+        return stateID;
+    }
+
     @Override
     public int size() {
         return size;

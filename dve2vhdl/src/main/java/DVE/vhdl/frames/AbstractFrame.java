@@ -12,4 +12,8 @@ public abstract class AbstractFrame {
     }
     public abstract int offset();
     public abstract int size();
+
+    public AbstractFrame lookup(String name) {
+        throw new RuntimeException("Cannot lookup in this context");
+    }
 }
