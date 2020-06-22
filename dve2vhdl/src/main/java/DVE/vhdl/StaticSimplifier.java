@@ -513,6 +513,4 @@ public class StaticSimplifier {
             return element;
         }
     };
-
-
 }
