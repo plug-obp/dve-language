@@ -32,6 +32,7 @@ public class StaticEvaluator {
 		public Literal caseBinaryExpression(DVE.model.BinaryExpression object) {
 			NumberLiteral lhs = (NumberLiteral)doSwitch(object.getOperands().get(0));
 			NumberLiteral rhs = (NumberLiteral)doSwitch(object.getOperands().get(1));
+			if (lhs == null || rhs == null) return null;
 			BigInteger lhsV = lhs.getValue();
 			BigInteger rhsV = rhs.getValue();
 			boolean lhsIsTrue = ! lhsV.equals(BigInteger.ZERO);
@@ -83,13 +84,19 @@ public class StaticEvaluator {
 		}
 		
 		public Literal caseVariableReference(DVE.model.VariableReference object) {
-			return doSwitch(object.getRef().getInitial());
+			if (object.getRef().getInitial() != null) {
+				return doSwitch(object.getRef().getInitial());
+			}
+			return null;
 		}
 		
 		public Literal caseIndexedExpression(DVE.model.IndexedExpression object) {
 			NumberLiteral idx = (NumberLiteral) doSwitch(object.getIndex());
 			ArrayLiteral aL = (ArrayLiteral) doSwitch(object.getBase());
-			return doSwitch(aL.getValues().get(idx.getValue().intValue()));
+			if (aL != null && idx != null) {
+				return doSwitch(aL.getValues().get(idx.getValue().intValue()));
+			}
+			return null;
 		}
 		
 		public Literal caseArrayLiteral(ArrayLiteral object) {

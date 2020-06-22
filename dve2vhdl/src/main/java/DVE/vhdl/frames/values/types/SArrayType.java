@@ -1,7 +1,5 @@
 package DVE.vhdl.frames.values.types;
 
-import com.sun.codemodel.internal.JDocComment;
-
 public class SArrayType extends SType {
     /**
      * The number of elements
