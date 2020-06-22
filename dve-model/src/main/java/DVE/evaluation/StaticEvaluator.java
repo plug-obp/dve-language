@@ -111,7 +111,7 @@ public class StaticEvaluator {
 			return object;
 		}
 		public Literal caseExpression(Expression object) {
-			System.err.println("the object is not a static expression");
+			//System.err.println("the object is not a static expression");
 			return null;
 		}
 	};

@@ -3,6 +3,7 @@ package DVE.vhdl.test;
 import DVE.compiler.DVECompiler;
 import DVE.extractions.DVEConfigurationSize;
 import DVE.model.System;
+import DVE.transformations.PrettyPrinter;
 import DVE.vhdl.DVE2VHDL;
 import DVE.vhdl.DVEFrameBuilder;
 import DVE.vhdl.StaticSimplifier;
@@ -30,7 +31,7 @@ public class DVE2VHDLTest {
         try {
             System sys = DVECompiler.compile(testFile);
             System sys1 = StaticSimplifier.simplify(sys);
-            java.lang.System.out.println("simplified");
+            java.lang.System.out.println(PrettyPrinter.toString(sys1));
         } catch (Exception e) {
             java.lang.System.err.println("testing "+ testFile);
             e.printStackTrace();

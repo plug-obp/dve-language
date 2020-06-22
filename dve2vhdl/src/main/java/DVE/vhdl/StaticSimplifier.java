@@ -11,6 +11,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
+/**
+ * Simplifies all  static expressions by replacing them with literals
+ */
 public class StaticSimplifier {
     public static System simplify(System system) {
         StaticSimplifier simplifier = new StaticSimplifier();
