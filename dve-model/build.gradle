@@ -61,4 +61,4 @@ ecore2java {
 sourceSets.main.java.srcDir 'generated'
 compileJava.dependsOn generateAntlr4Parser, ecore2java
 
-clean { doLast { project.delete "tmp" } }
+clean { doLast { project.delete "tmp", "generated" } }

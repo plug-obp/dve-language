@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="$DAILY$" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
+    <file type="web" url="file://$PROJECT_DIR$/../plugTEAM/jicpl" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="$DAILY$" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

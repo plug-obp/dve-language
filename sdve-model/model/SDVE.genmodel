@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/sdve-model/generated" modelPluginID="sdve-model"
+    modelName="SDVE" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" featureDelegation="Dynamic"
+    complianceLevel="7.0" copyrightFields="false" usedGenPackages="../../dve-model/model/DVE.genmodel#//DVE"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>SDVE.ecore</foreignModel>
+  <genPackages prefix="SDVE" disposableProviderFactory="true" ecorePackage="SDVE.ecore#/">
+    <nestedGenPackages prefix="Model" basePackage="SDVE" disposableProviderFactory="true"
+        ecorePackage="SDVE.ecore#//model">
+      <genClasses ecoreClass="SDVE.ecore#//model/System">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/System/declarations"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/System/transitions"/>
+      </genClasses>
+      <genClasses ecoreClass="SDVE.ecore#//model/STransition">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SDVE.ecore#//model/STransition/committed"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SDVE.ecore#//model/STransition/process"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/STransition/synchronization"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/STransition/guard"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/STransition/effects"/>
+      </genClasses>
+      <genClasses ecoreClass="SDVE.ecore#//model/TypeDeclaration">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/TypeDeclaration/type"/>
+      </genClasses>
+      <genClasses ecoreClass="SDVE.ecore#//model/TypeReference">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/TypeReference/ref"/>
+      </genClasses>
+      <genClasses ecoreClass="SDVE.ecore#//model/StateType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/StateType/states"/>
+      </genClasses>
+      <genClasses ecoreClass="SDVE.ecore#//model/BufferType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/BufferType/size"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference SDVE.ecore#//model/BufferType/type"/>
+      </genClasses>
+      <genClasses ecoreClass="SDVE.ecore#//model/BitType"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

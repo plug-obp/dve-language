@@ -3,18 +3,45 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="SDVE" nsURI="SDVE" nsPrefix="SDVE">
   <eAnnotations source="http://www.eclipse.org/OCL/Import">
     <details key="DVE" value="platform:/resource/dve-model/model/DVE.ecore"/>
+    <details key="model_0" value="../../dve-model/model/DVE.ecore#//model"/>
   </eAnnotations>
-  <eSubpackages name="model" nsURI="model" nsPrefix="model">
-    <eClassifiers xsi:type="ecore:EClass" name="System">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/NamedDeclaration"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" eType="#//model/STransition"/>
+  <eSubpackages name="model" nsURI="smodel" nsPrefix="model">
+    <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Element">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" ordered="false"
+          upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/NamedDeclaration"
+          containment="true">
+        <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+          <details key="nullFree" value="false"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" ordered="false"
+          upperBound="-1" eType="#//model/STransition" containment="true">
+        <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+          <details key="nullFree" value="false"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="acceptingConditions"
+          ordered="false" upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"
+          containment="true">
+        <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+          <details key="nullFree" value="false"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" lowerBound="1"
+          eType="#//model/SystemProperties" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="STransition">
+    <eClassifiers xsi:type="ecore:EClass" name="SystemProperties" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Element">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemType" lowerBound="1"
+          eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/SystemType"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="STransition" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Element">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="committed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="process" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="synchronization" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Synchronization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sync" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Synchronization"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="effects" ordered="false"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="effect" ordered="false"
           upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Assignment">
         <eAnnotations source="http://www.eclipse.org/OCL/Collection">
           <details key="nullFree" value="false"/>
@@ -24,13 +51,19 @@
     <eClassifiers xsi:type="ecore:EClass" name="TypeDeclaration" eSuperTypes="../../dve-model/model/DVE.ecore#//model/NamedDeclaration">
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Type"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeReference" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Type">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//model/TypeDeclaration"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="StateType" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Type">
       <eStructuralFeatures xsi:type="ecore:EReference" name="states" ordered="false"
-          lowerBound="1" upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/State">
+          lowerBound="1" upperBound="-1" eType="#//model/State">
         <eAnnotations source="http://www.eclipse.org/OCL/Collection">
           <details key="nullFree" value="false"/>
         </eAnnotations>
       </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="../../dve-model/model/DVE.ecore#//model/State">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BufferType" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Type">
       <eStructuralFeatures xsi:type="ecore:EReference" name="size" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"/>
@@ -41,5 +74,6 @@
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BitType" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Type"/>
   </eSubpackages>
 </ecore:EPackage>
