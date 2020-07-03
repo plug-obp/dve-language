@@ -1,14 +1,12 @@
-package DVE.sdve;
+package sdve.transformations;
 
 
 import DVE.model.Process;
 import DVE.model.System;
 import DVE.model.*;
 import DVE.model.util.ModelSwitch;
-import SDVE.model.STransition;
 import SDVE.model.StateType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import java.math.BigInteger;
 import java.util.IdentityHashMap;
@@ -140,22 +138,39 @@ public class DVE2SDVE {
             EObject node = map.get(object);
             if (node != null) return node;
 
+            //push the process in the context
             context.push(object);
+
+
+            //each process maps to a partialSystem, which is then merged with the other (see caseSystem)
             SDVE.model.System partialSystem = sdveFactory.createSystem();
             map.put(object, partialSystem);
 
-            //element.setName(object.getName());
-            //element.setSystem((System) doSwitch(object.getSystem()));
+            //create a state type, for the control state of the process
             StateType stateType = sdveFactory.createStateType();
+            //the state type is pushed on the context, so that each state can add itself (see caseState)
             context.push(stateType);
             for (EObject state : object.getStates()) {
                doSwitch(state);
             }
+            //remove the state type from the context
             context.pop();
 
+            // declare the control state and its initial value
+            VariableDeclaration stateVariableDeclaration = dveFactory.createVariableDeclaration();
+            stateVariableDeclaration.setType(stateType);
+            stateVariableDeclaration.setName(object.getName() + ".state");
+            NumberLiteral initialStateLiteral = dveFactory.createNumberLiteral();
+            initialStateLiteral.setValue(((SDVE.model.State) doSwitch(object.getInitial().getRef())).getValue());
+            stateVariableDeclaration.setInitial(initialStateLiteral);
+
+            partialSystem.getDeclarations().add(stateVariableDeclaration);
+
+            //for each accepting state generate an accepting condition in the partial system
             for (StateReference stateReference : object.getAccepting()) {
                 VariableReference variableReference = dveFactory.createVariableReference();
                 variableReference.setRefName(object.getName() + ".state");
+                variableReference.setRef(stateVariableDeclaration);
                 NumberLiteral numberLiteral = dveFactory.createNumberLiteral();
                 numberLiteral.setValue(((SDVE.model.State) doSwitch(stateReference.getRef())).getValue());
                 BinaryExpression acceptingCondition = dveFactory.createBinaryExpression();
@@ -166,21 +181,35 @@ public class DVE2SDVE {
                 partialSystem.getAcceptingConditions().add(acceptingCondition);
             }
 
-            VariableDeclaration stateVariableDeclaration = dveFactory.createVariableDeclaration();
-            stateVariableDeclaration.setType(stateType);
-            stateVariableDeclaration.setName(object.getName() + ".state");
-            NumberLiteral initialStateLiteral = dveFactory.createNumberLiteral();
-            initialStateLiteral.setValue(((SDVE.model.State) doSwitch(object.getInitial().getRef())).getValue());
-            stateVariableDeclaration.setInitial(initialStateLiteral);
+            //for each committed state add the committed flag
+            for (StateReference stateReference : object.getCommited()) {
+                SDVE.model.State state = (SDVE.model.State)doSwitch(stateReference.getRef());
+                state.setCommitted(true);
+            }
 
-            partialSystem.getDeclarations().add(stateVariableDeclaration);
+            if (!object.getCommited().isEmpty()) {
+                VariableDeclaration committedVariableDeclaration = dveFactory.createVariableDeclaration();
+                committedVariableDeclaration.setType(sdveFactory.createBitType());
+                committedVariableDeclaration.setName(object.getName() + ".committed");
+                //if the initial state is a committed state, then the committed variable defaults to true
+                if (object.getCommited().stream().anyMatch(c-> c.getRef() == object.getInitial().getRef())) {
+                    committedVariableDeclaration.setInitial(dveFactory.createTrueLiteral());
+                } else {
+                    //the initial state is not a committed state
+                    committedVariableDeclaration.setInitial(dveFactory.createFalseLiteral());
+                }
 
+                partialSystem.getDeclarations().add(committedVariableDeclaration);
+            }
+
+            //add all other variable declarations to the partial system
             for (EObject declaration : object.getDeclarations()) {
                 partialSystem.getDeclarations().add((NamedDeclaration) doSwitch(declaration));
             }
 
+            //add the STransitions to the partialSystem
             for (EObject transition : object.getTransitions()) {
-                partialSystem.getTransitions().add((STransition) doSwitch(transition));
+                partialSystem.getTransitions().add((SDVE.model.Transition) doSwitch(transition));
             }
 
             context.pop();
@@ -191,57 +220,97 @@ public class DVE2SDVE {
         public EObject caseTransition(Transition object) {
             EObject node = map.get(object);
             if (node != null) return node;
-            STransition element = sdveFactory.createSTransition();
+            SDVE.model.Transition element = sdveFactory.createTransition();
             map.put(object, element);
 
             Process process = (Process) context.peek();
 
-            element.setCommitted(false);
-            for (StateReference state : process.getCommited()) {
-                if (state.getRef() == object.getFrom().getRef()) {
-                    element.setCommitted(true);
-                }
-            }
-
             element.setProcess(process.getName());
 
+            //copy the synchronization
             if (object.getSync() != null) {
                 element.setSync((Synchronization) doSwitch(object.getSync()));
             }
+            BinaryExpression guardPrefix;
+            //create the guard for the from state
+            SDVE.model.State fromState = (SDVE.model.State) doSwitch(object.getFrom().getRef());
 
-            VariableReference variableReference = dveFactory.createVariableReference();
-            variableReference.setRefName(process.getName() + ".state");
+            //process_name.state == fromState.value
+            VariableReference stateVariableReference = dveFactory.createVariableReference();
+            stateVariableReference.setRefName(process.getName() + ".state");
             NumberLiteral numberLiteral = dveFactory.createNumberLiteral();
-            numberLiteral.setValue(((SDVE.model.State) doSwitch(object.getFrom().getRef())).getValue());
+            numberLiteral.setValue(fromState.getValue());
+
             BinaryExpression stateGuard = dveFactory.createBinaryExpression();
             stateGuard.setOperator(BinaryOperator.EQ);
-            stateGuard.getOperands().add(variableReference);
+            stateGuard.getOperands().add(stateVariableReference);
             stateGuard.getOperands().add(numberLiteral);
+
+            guardPrefix = stateGuard;
+            if (!process.getCommited().isEmpty()) {
+                //fromState.committed ? process_name.committed == true : process_name.committed == false
+                VariableReference committedVariableReference = dveFactory.createVariableReference();
+                committedVariableReference.setRefName(process.getName() + ".committed");
+
+                BinaryExpression committedGuard = dveFactory.createBinaryExpression();
+                committedGuard.setOperator(BinaryOperator.EQ);
+                committedGuard.getOperands().add(committedVariableReference);
+                if (fromState.getCommitted()) {
+                    committedGuard.getOperands().add(dveFactory.createTrueLiteral());
+                } else {
+                    committedGuard.getOperands().add(dveFactory.createFalseLiteral());
+                }
+
+                guardPrefix = dveFactory.createBinaryExpression();
+                guardPrefix.setOperator(BinaryOperator.AND);
+                guardPrefix.getOperands().add(stateGuard);
+                guardPrefix.getOperands().add(committedGuard);
+            }
 
             if (object.getGuard() != null) {
                 BinaryExpression guard = dveFactory.createBinaryExpression();
 
                 guard.setOperator(BinaryOperator.AND);
-                guard.getOperands().add(stateGuard);
+                guard.getOperands().add(guardPrefix);
                 guard.getOperands().add((Expression) doSwitch(object.getGuard()));
 
                 element.setGuard(guard);
             } else {
-                element.setGuard(stateGuard);
+                element.setGuard(guardPrefix);
             }
 
+            //get the toState
+            SDVE.model.State toState = (SDVE.model.State) doSwitch(object.getTo().getRef());
+
             //prepend state change
-            variableReference = dveFactory.createVariableReference();
-            variableReference.setRefName(process.getName() + ".state");
+            stateVariableReference = dveFactory.createVariableReference();
+            stateVariableReference.setRefName(process.getName() + ".state");
 
             numberLiteral = dveFactory.createNumberLiteral();
-            numberLiteral.setValue(((SDVE.model.State) doSwitch(object.getTo().getRef())).getValue());
+            numberLiteral.setValue(toState.getValue());
 
             Assignment assignment = dveFactory.createAssignment();
-            assignment.setLhs(variableReference);
+            assignment.setLhs(stateVariableReference);
             assignment.setRhs(numberLiteral);
 
             element.getEffect().add(assignment);
+
+            //fromState is committed ? process_name.committed := true : process_name.committed := false
+            if (!process.getCommited().isEmpty()) {
+                VariableReference committedVariableReference = dveFactory.createVariableReference();
+                committedVariableReference.setRefName(process.getName() + ".committed");
+
+                assignment = dveFactory.createAssignment();
+                assignment.setLhs(committedVariableReference);
+
+                if (toState.getCommitted()) {
+                    assignment.setRhs(dveFactory.createTrueLiteral());
+                } else {
+                    assignment.setRhs(dveFactory.createFalseLiteral());
+                }
+
+                element.getEffect().add(assignment);
+            }
 
             //copy effects
             for (EObject assignement : object.getEffect()) {
@@ -282,6 +351,8 @@ public class DVE2SDVE {
 
             element.setName(object.getName());
             element.setValue(BigInteger.valueOf(stateType.getStates().size()));
+            //by default the state is not committed, the flag might be set by the process (see caseProcess)
+            element.setCommitted(false);
             stateType.getStates().add(element);
 
             return element;
@@ -291,22 +362,6 @@ public class DVE2SDVE {
         @Override
         public EObject caseStateReference(StateReference object) {
             throw new RuntimeException("Unexpected state reference -- they should be already be replaced");
-//            EObject node = map.get(object);
-//            if (node != null) return node;
-//
-//            VariableReference variableReference = dveFactory.createVariableReference();
-//            variableReference.setRefName(((Process)context.peek()).getName() + ".state");
-//
-//            NumberLiteral literal = dveFactory.createNumberLiteral();
-//            literal.setValue(((SDVE.model.State) doSwitch(object.getRef())).getValue());
-//
-//            BinaryExpression expression = dveFactory.createBinaryExpression();
-//            expression.getOperands().add(0, variableReference);
-//            expression.setOperator(BinaryOperator.EQ);
-//            expression.getOperands().add(1, literal);
-//
-//            map.put(object, expression);
-//            return expression;
         }
 
         //DONE -- process states references are replaced by a variable reference to the variable declaration corresponding to the process state

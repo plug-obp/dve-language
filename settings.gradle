@@ -1,6 +1,5 @@
 rootProject.name = 'DVE'
 include 'dve-model'
 include 'sdve-model'
-include 'dve2sdve'
 include 'dve2fiacre'
 include 'dve2vhdl'

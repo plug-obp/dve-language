@@ -27,13 +27,15 @@ public class PrettyPrinter {
                 sb.append(doSwitch(decl));
             }
 
-            for (STransition transition : object.getTransitions()) {
+            for (Transition transition : object.getTransitions()) {
                 sb.append(doSwitch(transition));
             }
 
-            sb.append("accepting conditions\n");
-            for (Expression acceptingCondition : object.getAcceptingConditions()) {
-                sb.append("\t").append(doSwitch(acceptingCondition)).append("\n");
+            if (!object.getAcceptingConditions().isEmpty()) {
+                sb.append("accepting conditions\n");
+                for (Expression acceptingCondition : object.getAcceptingConditions()) {
+                    sb.append("\t").append(doSwitch(acceptingCondition)).append("\n");
+                }
             }
 
             sb.append(doSwitch(object.getProperties()));
@@ -55,13 +57,10 @@ public class PrettyPrinter {
         }
 
         @Override
-        public String caseSTransition(STransition object) {
+        public String caseTransition(Transition object) {
             StringBuilder sb = new StringBuilder();
 
             sb.append("\tProcess ").append(object.getProcess()).append(" ");
-            if (object.getCommitted()) {
-                sb.append("commited");
-            }
 
             sb.append("\n\t\t");
             if (object.getGuard() != null) {
