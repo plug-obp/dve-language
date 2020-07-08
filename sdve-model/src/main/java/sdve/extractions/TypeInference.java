@@ -6,6 +6,7 @@ import DVE.model.*;
 import DVE.model.util.ModelSwitch;
 import SDVE.model.*;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class TypeInference {
 
@@ -18,22 +19,22 @@ public class TypeInference {
     ModelSwitch<Type> dveModelSwitch = new ModelSwitch<Type>() {
         @Override
         public Type caseByteType(ByteType object) {
-            return object;
+            return EcoreUtil.copy(object);
         }
 
         @Override
         public Type caseIntegerType(IntegerType object) {
-            return object;
+            return EcoreUtil.copy(object);
         }
 
         @Override
         public Type caseArrayType(ArrayType object) {
-            return object;
+            return EcoreUtil.copy(object);
         }
 
         @Override
         public Type caseVariableDeclaration(VariableDeclaration object) {
-            return object.getType();
+            return doSwitch(object.getType());
         }
 
         @Override
@@ -43,7 +44,7 @@ public class TypeInference {
 
         @Override
         public Type caseConstantDeclaration(ConstantDeclaration object) {
-            return object.getType();
+            return doSwitch(object.getType());
         }
 
         @Override
@@ -72,7 +73,7 @@ public class TypeInference {
         public Type caseIndexedExpression(IndexedExpression object) {
             Type type = doSwitch(object.getBase());
             if (type instanceof ArrayType) {
-                return ((ArrayType)type).getElementType();
+                return doSwitch(((ArrayType)type).getElementType());
             }
             if (type instanceof TupleType) {
                 NumberLiteral literal = (NumberLiteral)StaticEvaluator.evaluate(object.getIndex());
@@ -104,11 +105,6 @@ public class TypeInference {
                 case IMPLY:
                 case OR:
                 case AND:
-                    return sdveFactory.createBitType();
-                case BOR:
-                case BAND:
-                case BXOR:
-                    return doSwitch(object.getOperands().get(0));
                 case EQ:
                 case NEQ:
                 case LT:
@@ -116,6 +112,9 @@ public class TypeInference {
                 case GT:
                 case GEQ:
                     return sdveFactory.createBitType();
+                case BOR:
+                case BAND:
+                case BXOR:
                 case SHL:
                 case SHR:
                     return doSwitch(object.getOperands().get(0));
@@ -139,22 +138,22 @@ public class TypeInference {
     SDVE.model.util.ModelSwitch<Type> sdveModelSwitch = new SDVE.model.util.ModelSwitch<Type>() {
         @Override
         public Type caseBitType(BitType object) {
-            return object;
+            return EcoreUtil.copy(object);
         }
 
         @Override
         public Type caseStateType(StateType object) {
-            return object;
+            return EcoreUtil.copy(object);
         }
 
         @Override
         public Type caseTupleType(TupleType object) {
-            return object;
+            return EcoreUtil.copy(object);
         }
 
         @Override
         public Type caseBufferType(BufferType object) {
-            return object;
+            return EcoreUtil.copy(object);
         }
 
         @Override
@@ -170,12 +169,12 @@ public class TypeInference {
         @Override
         public Type caseBufferRead(BufferRead object) {
             BufferType bufferType = (BufferType)doSwitch(object.getBuffer());
-            return bufferType.getType();
+            return doSwitch(bufferType.getType());
         }
 
         @Override
         public Type caseTransientVariableDeclaration(TransientVariableDeclaration object) {
-            return object.getType();
+            return doSwitch(object.getType());
         }
 
         @Override

@@ -6,7 +6,10 @@ import DVE.model.System;
 import DVE.model.*;
 import DVE.model.util.ModelSwitch;
 import SDVE.model.StateType;
+
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import java.math.BigInteger;
 import java.util.IdentityHashMap;
@@ -17,11 +20,33 @@ public class DVE2SDVE {
 
     public static SDVE.model.System transform(System system) {
         DVE2SDVE dve2SDVE = new DVE2SDVE();
-        return (SDVE.model.System)dve2SDVE.modelSwitch.doSwitch(system);
-    }
+        SDVE.model.System sdveSystem = (SDVE.model.System)dve2SDVE.modelSwitch.doSwitch(system);
 
+        TreeIterator<EObject> iterator = sdveSystem.eAllContents();
+        while (iterator.hasNext()) {
+            EObject current = iterator.next();
+            if (current instanceof BinaryExpression) {
+                BinaryExpression expression = (BinaryExpression) current;
+                Expression rhs = expression.getOperands().get(1);
+                if (rhs instanceof ProcessStateReference){
+                    SDVE.model.State state = (SDVE.model.State)dve2SDVE.map.get(((ProcessStateReference) rhs).getRef());
+                    NumberLiteral lit = ModelFactory.eINSTANCE.createNumberLiteral();
+                    lit.setValue(state.getValue());
+                    expression.getOperands().set(1, lit);
+                }
+            }
+            if (current instanceof ProcessVariableReference) {
+                ProcessVariableReference reference = (ProcessVariableReference)current;
+                VariableDeclaration decl = (VariableDeclaration) dve2SDVE.map.get(reference.getRef());
+                reference.setRef(decl);
+            }
+        }
+
+        return sdveSystem;
+    }
+    Map<EObject, EObject> map = new IdentityHashMap<>();
     ModelSwitch<EObject> modelSwitch = new ModelSwitch<EObject>() {
-        Map<EObject, EObject> map = new IdentityHashMap<>();
+
         Stack<EObject> context = new Stack<>();
         ModelFactory dveFactory = ModelFactory.eINSTANCE;
         SDVE.model.ModelFactory sdveFactory = SDVE.model.ModelFactory.eINSTANCE;
@@ -43,17 +68,11 @@ public class DVE2SDVE {
             for (EObject process : object.getProcesses()) {
                 SDVE.model.System partialSystem = (SDVE.model.System) doSwitch(process);
 
-                while (!partialSystem.getDeclarations().isEmpty()) {
-                    element.getDeclarations().add(partialSystem.getDeclarations().remove(0));
-                }
+                element.getDeclarations().addAll(partialSystem.getDeclarations());
 
-                while (!partialSystem.getTransitions().isEmpty()) {
-                    element.getTransitions().add(partialSystem.getTransitions().remove(0));
-                }
+                element.getTransitions().addAll(partialSystem.getTransitions());
 
-                while (!partialSystem.getAcceptingConditions().isEmpty()) {
-                    element.getAcceptingConditions().add(partialSystem.getAcceptingConditions().remove(0));
-                }
+                element.getAcceptingConditions().addAll(partialSystem.getAcceptingConditions());
 
                 assert partialSystem.getProperties() == null;
             }
@@ -376,13 +395,20 @@ public class DVE2SDVE {
             VariableReference variableReference = dveFactory.createVariableReference();
             variableReference.setRefName(object.getPrefix().getRefName() + ".state");
 
-            NumberLiteral literal = dveFactory.createNumberLiteral();
-            literal.setValue(((SDVE.model.State) doSwitch(object.getRef())).getValue());
+            Expression rhs = null;
+            SDVE.model.State state = (SDVE.model.State)map.get(object.getRef());
+            if (state == null) {
+                rhs = EcoreUtil.copy(object);
+            } else {
+                NumberLiteral literal = dveFactory.createNumberLiteral();
+                literal.setValue(state.getValue());
+                rhs = literal;
+            }
 
             BinaryExpression expression = dveFactory.createBinaryExpression();
             expression.getOperands().add(variableReference);
             expression.setOperator(BinaryOperator.EQ);
-            expression.getOperands().add(literal);
+            expression.getOperands().add(rhs);
 
             map.put(object, expression);
 
@@ -573,7 +599,8 @@ public class DVE2SDVE {
             map.put(object, element);
 
             element.setRefName(object.getPrefix().getRefName() +"."+ object.getRefName());
-            element.setRef((VariableDeclaration) doSwitch(object.getRef()));
+            //element.setRef((VariableDeclaration) doSwitch(object.getRef()));
+            element.setRef(object.getRef());
 
             return element;
         }

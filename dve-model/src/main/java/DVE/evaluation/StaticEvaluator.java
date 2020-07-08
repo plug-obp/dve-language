@@ -1,10 +1,7 @@
 package DVE.evaluation;
 
 import DVE.compiler.builder.DVEBuilder;
-import DVE.model.ArrayLiteral;
-import DVE.model.Expression;
-import DVE.model.Literal;
-import DVE.model.NumberLiteral;
+import DVE.model.*;
 import DVE.model.util.ModelSwitch;
 
 import java.math.BigInteger;
@@ -30,11 +27,33 @@ public class StaticEvaluator {
 			return null;
 		}
 		public Literal caseBinaryExpression(DVE.model.BinaryExpression object) {
-			NumberLiteral lhs = (NumberLiteral)doSwitch(object.getOperands().get(0));
-			NumberLiteral rhs = (NumberLiteral)doSwitch(object.getOperands().get(1));
-			if (lhs == null || rhs == null) return null;
-			BigInteger lhsV = lhs.getValue();
-			BigInteger rhsV = rhs.getValue();
+			BigInteger lhsV;
+			BigInteger rhsV;
+			Literal lhsLit = doSwitch(object.getOperands().get(0));
+			Literal rhsLit = doSwitch(object.getOperands().get(1));
+			if (lhsLit == null || rhsLit == null) return null;
+			if (lhsLit instanceof ArrayLiteral || rhsLit instanceof ArrayLiteral) return null;
+			if (lhsLit instanceof FalseLiteral) {
+				lhsV = BigInteger.ZERO;
+			} else if (lhsLit instanceof TrueLiteral) {
+				lhsV = BigInteger.ONE;
+			} else {
+				lhsV = ((NumberLiteral)lhsLit).getValue();
+			}
+
+			if (rhsLit instanceof FalseLiteral) {
+				rhsV = BigInteger.ZERO;
+			} else if (rhsLit instanceof TrueLiteral) {
+				rhsV = BigInteger.ONE;
+			} else {
+				rhsV = ((NumberLiteral)rhsLit).getValue();
+			}
+
+//			NumberLiteral lhs = (NumberLiteral)doSwitch(object.getOperands().get(0));
+//			NumberLiteral rhs = (NumberLiteral)doSwitch(object.getOperands().get(1));
+//			if (lhs == null || rhs == null) return null;
+//			BigInteger lhsV = lhs.getValue();
+//			BigInteger rhsV = rhs.getValue();
 			boolean lhsIsTrue = ! lhsV.equals(BigInteger.ZERO);
 			boolean rhsIsTrue = ! rhsV.equals(BigInteger.ZERO);
 			switch(object.getOperator()) {

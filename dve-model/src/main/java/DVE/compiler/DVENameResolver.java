@@ -38,6 +38,7 @@ public class DVENameResolver {
 			for (NamedDeclaration nD : object.getDeclarations()) {
 				doSwitch(nD);
 			}
+			doSwitch(object.getProperties());
 			context.pop();
 			
 			for (Reference ref : unresolvedSet) {
@@ -177,7 +178,9 @@ public class DVENameResolver {
 		}
 		
 		public Boolean caseSystemProperties(DVE.model.SystemProperties object) {
-			doSwitch(object.getProperty());
+			if (object.getProperty() != null) {
+				doSwitch(object.getProperty());
+			}
 			return true;
 		}
 		
@@ -265,6 +268,7 @@ public class DVENameResolver {
 			object.setRef(var);
 			return true;
 		}
+
 	};
 	public void apply(System sys) throws Exception {
 		modelSwitch.doSwitch(sys);

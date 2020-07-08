@@ -419,11 +419,13 @@ public class StaticSimplifier {
 
             element.setChannel((ChannelReference) doSwitch(object.getChannel()));
 
-            Expression result = StaticEvaluator.evaluate(object.getValue());
-            if (result != null) {
-                element.setValue(result);
-            } else {
-                element.setValue((Expression) doSwitch(object.getValue()));
+            if (object.getValue() != null) {
+                Expression result = StaticEvaluator.evaluate(object.getValue());
+                if (result != null) {
+                    element.setValue(result);
+                } else {
+                    element.setValue((Expression) doSwitch(object.getValue()));
+                }
             }
 
             return element;
@@ -438,11 +440,13 @@ public class StaticSimplifier {
 
             element.setChannel((ChannelReference) doSwitch(object.getChannel()));
 
-            Expression result = StaticEvaluator.evaluate(object.getValue());
-            if (result != null) {
-                element.setValue(result);
-            } else {
-                element.setValue((Expression) doSwitch(object.getValue()));
+            if (object.getValue() != null) {
+                Expression result = StaticEvaluator.evaluate(object.getValue());
+                if (result != null) {
+                    element.setValue(result);
+                } else {
+                    element.setValue((Expression) doSwitch(object.getValue()));
+                }
             }
 
             return element;

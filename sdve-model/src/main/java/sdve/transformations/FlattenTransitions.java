@@ -161,7 +161,12 @@ public class FlattenTransitions {
             expression.getOperands().add(operand0);
             expression.getOperands().add(operand1);
 
-            VariableReference temp = createTemp(TypeInference.getType(expression));
+            Type type = TypeInference.getType(expression);
+            if (type == null) {
+                java.lang.System.out.println("error");
+            }
+
+            VariableReference temp = createTemp(type);
             Assignment assignment = dveModelFactory.createAssignment();
             assignment.setLhs(temp);
             assignment.setRhs(expression);

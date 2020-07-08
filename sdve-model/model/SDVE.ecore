@@ -40,20 +40,24 @@
     <eClassifiers xsi:type="ecore:EClass" name="AbstractTransition" abstract="true"
         eSuperTypes="../../dve-model/model/DVE.ecore#//model/Element #//model/SElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="process" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="effect" ordered="false"
-          upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Assignment">
+          upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Assignment"
+          containment="true">
         <eAnnotations source="http://www.eclipse.org/OCL/Collection">
           <details key="nullFree" value="false"/>
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//model/AbstractTransition #//model/SElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="sync" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Synchronization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sync" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Synchronization"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FlatTransition" eSuperTypes="#//model/AbstractTransition #//model/SElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="guardBlock" ordered="false"
-          upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Assignment">
+          upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Assignment"
+          containment="true">
         <eAnnotations source="http://www.eclipse.org/OCL/Collection">
           <details key="nullFree" value="false"/>
         </eAnnotations>
@@ -74,28 +78,35 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="TupleType" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Type #//model/SElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="types" ordered="false"
-          lowerBound="1" upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Type">
+          lowerBound="1" upperBound="-1" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Type"
+          containment="true">
         <eAnnotations source="http://www.eclipse.org/OCL/Collection">
           <details key="nullFree" value="false"/>
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BufferType" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Type #//model/SElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="size" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="size" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Type"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BufferRead" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Expression #//model/SElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BufferWrite" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Assignment #//model/SElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/Expression"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BufferIsEmpty" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Expression #//model/SElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BufferIsFull" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Expression #//model/SElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="ecore:EClass ../../dve-model/model/DVE.ecore#//model/VariableReference"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BitType" eSuperTypes="../../dve-model/model/DVE.ecore#//model/Type #//model/SElement"/>
     <eClassifiers xsi:type="ecore:EClass" name="TransientVariableDeclaration" eSuperTypes="../../dve-model/model/DVE.ecore#//model/VariableDeclaration #//model/SElement"/>
