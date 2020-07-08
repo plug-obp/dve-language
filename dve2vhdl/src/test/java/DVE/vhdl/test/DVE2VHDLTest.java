@@ -1,12 +1,10 @@
 package DVE.vhdl.test;
 
 import DVE.compiler.DVECompiler;
-import DVE.extractions.DVEConfigurationSize;
 import DVE.model.System;
 import DVE.transformations.PrettyPrinter;
 import DVE.vhdl.DVE2VHDL;
-import DVE.vhdl.DVEFrameBuilder;
-import DVE.vhdl.StaticSimplifier;
+import DVE.transformations.StaticSimplifier;
 import org.junit.Test;
 
 import java.io.File;

@@ -2,10 +2,11 @@ package sdve.transformations;
 
 import DVE.evaluation.StaticEvaluator;
 import DVE.model.*;
+import SDVE.model.*;
 import SDVE.model.ModelFactory;
 import SDVE.model.System;
-import SDVE.model.TransientVariableDeclaration;
 import SDVE.model.Transition;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import sdve.extractions.ChannelSchedule;
 
 import java.util.IdentityHashMap;
@@ -18,6 +19,10 @@ public class SynchronizationFlattening {
     System flatSystem;
     TransientVariableDeclaration currentChannelVariableDecl;
 
+    public static System flatten(System system) {
+        return new SynchronizationFlattening(system).flattenSynchronizations();
+    }
+
     public SynchronizationFlattening(System system) {
         this.originalSystem = system;
         this.flatSystem = sdveFactory.createSystem();
@@ -27,7 +32,7 @@ public class SynchronizationFlattening {
         Map<ChannelDeclaration, ChannelSchedule> channelScheduleMap = new IdentityHashMap<>();
 
         while (!originalSystem.getTransitions().isEmpty()) {
-            Transition currentTransition = originalSystem.getTransitions().remove(0);
+            Transition currentTransition = (Transition) originalSystem.getTransitions().remove(0);
 
             if (currentTransition.getSync() == null) {
                 //if no synchronization just add the transition to the system
@@ -35,13 +40,15 @@ public class SynchronizationFlattening {
                 continue;
             }
             ChannelDeclaration channelDeclaration = currentTransition.getSync().getChannel().getRef();
+            if (!isSynchronous(channelDeclaration)) {
+                throw new RuntimeException("Buffered channels have to be removed before flattening synchronizations");
+            }
+
             ChannelSchedule schedule = channelScheduleMap.get(channelDeclaration);
             if (schedule == null) {
                 channelScheduleMap.put(channelDeclaration, schedule = new ChannelSchedule(channelDeclaration));
             }
-            if (!isSynchronous(channelDeclaration)) {
-                throw new RuntimeException("Buffered channels have to be removed before flattening synchronizations");
-            }
+
             //valueless channel
             if (currentTransition.getSync() instanceof InputSynchronization) {
                 schedule.addInput(currentTransition);
@@ -54,10 +61,19 @@ public class SynchronizationFlattening {
 
         for (Map.Entry<ChannelDeclaration, ChannelSchedule> entry : channelScheduleMap.entrySet()) {
             currentChannelVariableDecl = null;
-            if (false /*typed channel*/) {
+            if (entry.getKey() instanceof TypedChannelDeclaration /*typed channel*/) {
                 ChannelDeclaration channelDeclaration = entry.getKey();
                 currentChannelVariableDecl = sdveFactory.createTransientVariableDeclaration();
                 currentChannelVariableDecl.setName(channelDeclaration.getName());
+
+                TypedChannelDeclaration typedChannelDeclaration = (TypedChannelDeclaration) channelDeclaration;
+                if (typedChannelDeclaration.getTypes().size() == 1) {
+                    currentChannelVariableDecl.setType(typedChannelDeclaration.getTypes().get(0));
+                } else {
+                    TupleType tupleType = sdveFactory.createTupleType();
+                    tupleType.getTypes().addAll(typedChannelDeclaration.getTypes());
+                    currentChannelVariableDecl.setType(tupleType);
+                }
 
                 flatSystem.getDeclarations().add(currentChannelVariableDecl);
             }
@@ -67,6 +83,9 @@ public class SynchronizationFlattening {
 
         while (!originalSystem.getDeclarations().isEmpty()) {
             NamedDeclaration decl = originalSystem.getDeclarations().remove(0);
+            if ( (decl instanceof ChannelDeclaration) && isSynchronous((ChannelDeclaration)decl)){
+                continue;
+            }
             flatSystem.getDeclarations().add(decl);
         }
 
@@ -77,50 +96,68 @@ public class SynchronizationFlattening {
             flatSystem.getAcceptingConditions().add(cond);
         }
 
-        return null;
+        return flatSystem;
     }
 
     public void synchronousActionHandler(Transition[] transitions) {
         //if the input and output are in the same process do not synchronize
         if (transitions[0].getProcess().equals(transitions[1].getProcess())) {
+            java.lang.System.out.println("info: input/output synchronization in the same process are ignored "+transitions[1].getProcess());
             return;
         }
 
+        Transition outputTransition     = EcoreUtil.copy(transitions[0]);
+        Transition inputTransition      = EcoreUtil.copy(transitions[1]);
         //it is a synchronous channel with data exchange
         if (currentChannelVariableDecl != null) {
             //write the data to the channel variable
             VariableReference variableReference = dveFactory.createVariableReference();
             variableReference.setRef(currentChannelVariableDecl);
+            variableReference.setRefName(currentChannelVariableDecl.getName());
 
+            //TODO: the transmited value should be typecasted before the transmission
             Assignment writeAssignement = dveFactory.createAssignment();
             writeAssignement.setLhs(variableReference);
-            writeAssignement.setRhs(transitions[0].getSync().getValue());
+            writeAssignement.setRhs(EcoreUtil.copy(outputTransition.getSync().getValue()));
 
-            transitions[0].getEffect().add(writeAssignement);
+            outputTransition.getEffect().add(writeAssignement);
 
             //write the data to the slot given by the input transition
             variableReference = dveFactory.createVariableReference();
             variableReference.setRef(currentChannelVariableDecl);
+            variableReference.setRefName(currentChannelVariableDecl.getName());
 
             Assignment readAssignement = dveFactory.createAssignment();
-            readAssignement.setLhs(transitions[1].getSync().getValue());
+            readAssignement.setLhs(EcoreUtil.copy(inputTransition.getSync().getValue()));
             readAssignement.setRhs(variableReference);
 
-            transitions[1].getEffect().add(readAssignement);
+            inputTransition.getEffect().add(readAssignement);
+        } else {//untyped channel with data exchange
+            if (outputTransition.getSync().getValue() != null && inputTransition.getSync().getValue() != null) {
+                Assignment syncAssignment = dveFactory.createAssignment();
+                syncAssignment.setLhs(EcoreUtil.copy(inputTransition.getSync().getValue()));
+                syncAssignment.setRhs(EcoreUtil.copy(outputTransition.getSync().getValue()));
+                outputTransition.getEffect().add(syncAssignment);
+            }
         }
 
         Transition compositeTransition = sdveFactory.createTransition();
 
+        compositeTransition.setProcess(outputTransition.getProcess() + "-" + inputTransition.getProcess());
         compositeTransition.setSync(null);
 
-        BinaryExpression compositeGuard = dveFactory.createBinaryExpression();
-        compositeGuard.setOperator(BinaryOperator.AND);
-        compositeGuard.getOperands().add(transitions[0].getGuard());
-        compositeGuard.getOperands().add(transitions[1].getGuard());
-        compositeTransition.setGuard(compositeGuard);
+        if (outputTransition.getGuard() != null && inputTransition.getGuard() != null) {
+            BinaryExpression compositeGuard = dveFactory.createBinaryExpression();
+            compositeGuard.setOperator(BinaryOperator.AND);
+            compositeGuard.getOperands().add(EcoreUtil.copy(outputTransition.getGuard()));
+            compositeGuard.getOperands().add(EcoreUtil.copy(inputTransition.getGuard()));
+            compositeTransition.setGuard(compositeGuard);
+        } else {
+            throw  new RuntimeException("The system should be normalized, all transition have a guard");
+        }
 
-        compositeTransition.getEffect().addAll(transitions[0].getEffect());
-        compositeTransition.getEffect().addAll(transitions[1].getEffect());
+        compositeTransition.getEffect().addAll(outputTransition.getEffect());
+        compositeTransition.getEffect().addAll(inputTransition.getEffect());
 
         flatSystem.getTransitions().add(compositeTransition);
     }

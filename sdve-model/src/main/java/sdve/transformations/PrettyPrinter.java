@@ -27,7 +27,7 @@ public class PrettyPrinter {
                 sb.append(doSwitch(decl));
             }
 
-            for (Transition transition : object.getTransitions()) {
+            for (AbstractTransition transition : object.getTransitions()) {
                 sb.append(doSwitch(transition));
             }
 
@@ -96,6 +96,56 @@ public class PrettyPrinter {
         }
 
         @Override
+        public String caseFlatTransition(FlatTransition object) {
+            StringBuilder sb = new StringBuilder();
+
+            sb.append("\tProcess ").append(object.getProcess()).append(" ");
+
+            sb.append("\n\t\t");
+            if (!object.getGuardBlock().isEmpty()) {
+                sb.append("guardBlock ");
+
+                int n = object.getGuardBlock().size();
+                for (Assignment assignment : object.getGuardBlock()) {
+                    n--;
+                    sb.append("\n");
+                    sb.append("\t\t\t");
+                    sb.append(doSwitch(assignment));
+                    if (n != 0) {
+                        sb.append(",");
+                    }
+                }
+                sb.append(";\n");
+            }
+
+            sb.append("\n\t\t");
+            if (object.getGuard() != null) {
+                sb.append("guardCondition ");
+                sb.append(doSwitch(object.getGuard()));
+                sb.append(";");
+            }
+
+            sb.append("\n\t\t");
+            if (!object.getEffect().isEmpty()) {
+                sb.append("effect ");
+
+                int n = object.getEffect().size();
+                for (Assignment assignment : object.getEffect()) {
+                    n--;
+                    sb.append("\n");
+                    sb.append("\t\t\t");
+                    sb.append(doSwitch(assignment));
+                    if (n != 0) {
+                        sb.append(",");
+                    }
+                }
+                sb.append(";\n");
+            }
+            sb.append("\n");
+            return sb.toString();
+        }
+
+        @Override
         public String caseStateType(StateType object) {
             StringBuilder sb = new StringBuilder();
             sb.append("StateType {");
@@ -118,13 +168,11 @@ public class PrettyPrinter {
         }
 
         @Override
-        public String caseBufferType(BufferType object) {
+        public String caseTupleType(TupleType object) {
             StringBuilder sb = new StringBuilder();
-            sb.append("buffer ");
-            sb.append(doSwitch(object.getSize()));
-            sb.append(" of {");
+            sb.append(" tuple {");
             boolean first = true;
-            for (Type type : object.getType()) {
+            for (Type type : object.getTypes()) {
                 if (first) {
                     first = false;
                 } else {
@@ -137,8 +185,65 @@ public class PrettyPrinter {
         }
 
         @Override
+        public String caseBufferType(BufferType object) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("buffer ");
+            sb.append(doSwitch(object.getSize()));
+            sb.append(" of ");
+            sb.append(doSwitch(object.getType()));
+            return sb.toString();
+        }
+
+        @Override
+        public String caseBufferRead(BufferRead object) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("BufferRead(");
+            sb.append(doSwitch(object.getBuffer()));
+            sb.append(")");
+            return sb.toString();
+        }
+
+        @Override
+        public String caseBufferWrite(BufferWrite object) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("BufferWrite(");
+            sb.append(doSwitch(object.getBuffer()));
+            sb.append(", ");
+            sb.append(doSwitch(object.getValue()));
+            sb.append(")");
+            return sb.toString();
+        }
+
+        @Override
+        public String caseBufferIsEmpty(BufferIsEmpty object) {
+            return "BufferIsEmpty(" + doSwitch(object.getBuffer()) + ")";
+        }
+
+        @Override
+        public String caseBufferIsFull(BufferIsFull object) {
+            return "BufferIsFull(" + doSwitch(object.getBuffer()) + ")";
+        }
+
+        @Override
         public String caseBitType(BitType object) {
             return "Bit";
+        }
+
+        @Override
+        public String caseTransientVariableDeclaration(TransientVariableDeclaration object) {
+            StringBuffer sb = new StringBuffer();
+
+            sb.append("transient ");
+            sb.append(doSwitch(object.getType()));
+            sb.append(" ");
+            sb.append(object.getName());
+            if (object.getInitial() != null) {
+                sb.append(" = ");
+                sb.append(doSwitch(object.getInitial()));
+            }
+            sb.append(";\n");
+
+            return sb.toString();
         }
 
         @Override

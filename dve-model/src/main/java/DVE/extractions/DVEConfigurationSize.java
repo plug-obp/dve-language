@@ -5,6 +5,7 @@ import DVE.model.Process;
 import DVE.model.System;
 import DVE.model.*;
 import DVE.model.util.ModelSwitch;
+import DVE.transformations.PrettyPrinter;
 import org.eclipse.emf.ecore.EObject;
 
 import java.math.BigInteger;
@@ -35,6 +36,7 @@ public class DVEConfigurationSize {
 
         @Override
         public Integer caseChannelDeclaration(ChannelDeclaration object) {
+            java.lang.System.out.println("--- CHANNEL ---"+ PrettyPrinter.toString(object));
             return 0;
         }
 
@@ -45,6 +47,7 @@ public class DVEConfigurationSize {
 
         @Override
         public Integer caseTypedChannelDeclaration(TypedChannelDeclaration object) {
+            java.lang.System.out.println("--- TYPED CHANNEL ---"+ PrettyPrinter.toString(object));
             return 0;
         }
 

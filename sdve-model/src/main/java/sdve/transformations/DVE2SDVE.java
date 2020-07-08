@@ -156,12 +156,15 @@ public class DVE2SDVE {
             //remove the state type from the context
             context.pop();
 
+            //declare the default value (initial state)
+            stateType.setDefault((SDVE.model.State)doSwitch(object.getInitial().getRef()));
+
             // declare the control state and its initial value
             VariableDeclaration stateVariableDeclaration = dveFactory.createVariableDeclaration();
             stateVariableDeclaration.setType(stateType);
             stateVariableDeclaration.setName(object.getName() + ".state");
             NumberLiteral initialStateLiteral = dveFactory.createNumberLiteral();
-            initialStateLiteral.setValue(((SDVE.model.State) doSwitch(object.getInitial().getRef())).getValue());
+            initialStateLiteral.setValue(stateType.getDefault().getValue());
             stateVariableDeclaration.setInitial(initialStateLiteral);
 
             partialSystem.getDeclarations().add(stateVariableDeclaration);
@@ -327,8 +330,9 @@ public class DVE2SDVE {
             VariableReference element = dveFactory.createVariableReference();
             map.put(object, element);
 
-            element.setRef((VariableDeclaration) doSwitch(object.getRef()));
-            element.setRefName(object.getRef().getName());
+            VariableDeclaration variableDeclaration = (VariableDeclaration) doSwitch(object.getRef());
+            element.setRef(variableDeclaration);
+            element.setRefName(variableDeclaration.getName());
 
             return element;
         }

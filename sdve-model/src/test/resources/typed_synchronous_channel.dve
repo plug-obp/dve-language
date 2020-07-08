@@ -1,0 +1,16 @@
+channel {byte} b_send[0];
+
+process p1 {
+    state one, two;
+    init one;
+    trans one -> two { sync b_send ! 25; };
+}
+
+process p2 {
+    byte v;
+    state x, y;
+    init x;
+    trans x -> y { sync b_send ? v; };
+}
+
+system async;

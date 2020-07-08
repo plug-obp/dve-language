@@ -1,21 +1,21 @@
 package DVE.evaluation;
 
-import java.util.List;
-import java.math.BigInteger;
-
 import DVE.compiler.builder.DVEBuilder;
-
 import DVE.model.ArrayLiteral;
 import DVE.model.Expression;
 import DVE.model.Literal;
 import DVE.model.NumberLiteral;
 import DVE.model.util.ModelSwitch;
 
+import java.math.BigInteger;
+import java.util.List;
+
 public class StaticEvaluator {
 	DVEBuilder builder = DVEBuilder.uniqueInstance;
 	ModelSwitch<Literal> modelSwitch = new ModelSwitch<Literal>() {
 		public Literal caseUnaryExpression(DVE.model.UnaryExpression object) {
 			NumberLiteral lit = (NumberLiteral)doSwitch(object.getOperand());
+			if (lit == null) return null;
 			switch (object.getOperator()) {
 			case BNOT:
 				return builder.literal(lit.getValue().not());
@@ -100,10 +100,13 @@ public class StaticEvaluator {
 		}
 		
 		public Literal caseArrayLiteral(ArrayLiteral object) {
+
 			List<Expression> exps = object.getValues();
 			for (int idx = 0; idx < exps.size(); idx ++ ){
 				Literal lit = doSwitch(exps.get(idx));
-				exps.set(idx, lit);
+				if (lit != null) {
+					exps.set(idx, lit);
+				}
 			}
 			return object;
 		}
@@ -123,6 +126,7 @@ public class StaticEvaluator {
 	static StaticEvaluator uniqueInstance = new StaticEvaluator();
 	
 	public static Literal evaluate(Expression exp) {
+		if (exp == null) return null;
 		return uniqueInstance.eval(exp);
 	}
 }

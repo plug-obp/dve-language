@@ -1,4 +1,4 @@
-package DVE.vhdl;
+package DVE.transformations;
 
 import DVE.evaluation.StaticEvaluator;
 import DVE.model.Process;
@@ -53,11 +53,13 @@ public class StaticSimplifier {
 
             element.setName(object.getName());
             element.setType((Type) doSwitch(object.getType()));
-            Expression result = StaticEvaluator.evaluate(object.getInitial());
-            if (result != null) {
-                element.setInitial(result);
-            } else {
-                element.setInitial((Expression) doSwitch(object.getInitial()));
+            if (object.getInitial() != null) {
+                Expression result = StaticEvaluator.evaluate(object.getInitial());
+                if (result != null) {
+                    element.setInitial(result);
+                } else {
+                    element.setInitial((Expression) doSwitch(object.getInitial()));
+                }
             }
 
             return element;
@@ -160,15 +162,17 @@ public class StaticSimplifier {
                 element.setSync((Synchronization) doSwitch(object.getSync()));
             }
 
-            Expression result = StaticEvaluator.evaluate(object.getGuard());
-            if (result != null) {
-                element.setGuard(result);
-            } else {
-                element.setGuard((Expression) doSwitch(object.getGuard()));
-            }
+            if (object.getGuard() != null) {
+                Expression result = StaticEvaluator.evaluate(object.getGuard());
+                if (result != null) {
+                    element.setGuard(result);
+                } else {
+                    element.setGuard((Expression) doSwitch(object.getGuard()));
+                }
 
-            for (EObject assignement : object.getEffect()) {
-                element.getEffect().add((Assignment) doSwitch(assignement));
+                for (EObject assignement : object.getEffect()) {
+                    element.getEffect().add((Assignment) doSwitch(assignement));
+                }
             }
 
             return element;
