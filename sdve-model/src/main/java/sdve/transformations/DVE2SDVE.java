@@ -394,7 +394,6 @@ public class DVE2SDVE {
             throw new RuntimeException("Unexpected process reference -- they should be already be replaced by the process name");
         }
 
-        @Override //TODO
         public EObject caseChannelReference(ChannelReference object) {
             EObject node = map.get(object);
             if (node != null) return node;
@@ -534,7 +533,7 @@ public class DVE2SDVE {
             return element;
         }
 
-        @Override //TODO -- need chanel schedule
+        @Override
         public EObject caseInputSynchronization(InputSynchronization object) {
             EObject node = map.get(object);
             if (node != null) return node;
@@ -550,7 +549,7 @@ public class DVE2SDVE {
             return element;
         }
 
-        @Override //TODO -- need chanel schedule
+        @Override
         public EObject caseOutputSynchronization(OutputSynchronization object) {
             EObject node = map.get(object);
             if (node != null) return node;

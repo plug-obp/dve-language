@@ -180,7 +180,7 @@ public class FlattenTransitions {
             expression.setIndex(index);
             expression.setBase(base);
 
-            VariableReference temp = createTemp(TypeInference.getType(expression)); //TODO: fix type
+            VariableReference temp = createTemp(TypeInference.getType(expression));
             Assignment assignment = dveModelFactory.createAssignment();
             assignment.setLhs(temp);
             assignment.setRhs(expression);

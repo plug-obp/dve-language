@@ -115,7 +115,7 @@ public class SynchronizationFlattening {
             variableReference.setRef(currentChannelVariableDecl);
             variableReference.setRefName(currentChannelVariableDecl.getName());
 
-            //TODO: the transmited value should be typecasted before the transmission
+            //the transmited value should be typecasted before the transmission
             Assignment writeAssignement = dveFactory.createAssignment();
             writeAssignement.setLhs(variableReference);
             writeAssignement.setRhs(EcoreUtil.copy(outputTransition.getSync().getValue()));
