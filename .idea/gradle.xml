@@ -21,25 +21,6 @@
         </option>
         <option name="useQualifiedModuleNames" value="$DAILY$" />
       </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="delegatedBuild" value="$DAILY$" />
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/../plugTEAM/jicpl" />
-        <option name="gradleHome" value="/usr/local/Cellar/gradle/4.3.1/libexec" />
-        <option name="gradleJvm" value="1.8 (1)" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/../plugTEAM/jicpl" />
-            <option value="$PROJECT_DIR$/../plugTEAM/jicpl/BuchiAutomata" />
-            <option value="$PROJECT_DIR$/../plugTEAM/jicpl/LDL" />
-            <option value="$PROJECT_DIR$/../plugTEAM/jicpl/LPropositionalLogic" />
-            <option value="$PROJECT_DIR$/../plugTEAM/jicpl/LTL" />
-            <option value="$PROJECT_DIR$/../plugTEAM/jicpl/LTL3BA" />
-          </set>
-        </option>
-        <option name="useQualifiedModuleNames" value="$DAILY$" />
-      </GradleProjectSettings>
     </option>
   </component>
 </project>
