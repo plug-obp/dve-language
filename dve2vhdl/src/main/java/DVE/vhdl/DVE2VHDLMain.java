@@ -27,7 +27,7 @@ public class DVE2VHDLMain {
                 throw new CmdLineException(parser, Messages.ILLEGAL_PATH, "Missing DVE input file");
             }
 
-            convertDVE2Fiacre();
+            convertDVE2VHDL();
         } catch (CmdLineException e) {
             System.err.println();
             System.err.println(e.getMessage());
@@ -45,10 +45,10 @@ public class DVE2VHDLMain {
         DVE2VHDLMain instance = new DVE2VHDLMain();
         instance.inDVE = inDVE;
         instance.outVHDL = outFiacre;
-        instance.convertDVE2Fiacre();
+        instance.convertDVE2VHDL();
     }
 
-    void convertDVE2Fiacre() {
+    void convertDVE2VHDL() {
         try {
             DVE.model.System sys = DVECompiler.compile(inDVE);
             String vhdlCode = new DVE2VHDL().transform(sys);
@@ -62,7 +62,7 @@ public class DVE2VHDLMain {
                 outVHDL = inDVE.getAbsolutePath() + ".vhd";
             }
 
-            BufferedWriter os = new BufferedWriter(new FileWriter(vhdlCode));
+            BufferedWriter os = new BufferedWriter(new FileWriter(outVHDL));
             os.write(vhdlCode);
             os.close();
 
