@@ -68,10 +68,10 @@ public class SynchronizationFlattening {
 
                 TypedChannelDeclaration typedChannelDeclaration = (TypedChannelDeclaration) channelDeclaration;
                 if (typedChannelDeclaration.getTypes().size() == 1) {
-                    currentChannelVariableDecl.setType(typedChannelDeclaration.getTypes().get(0));
+                    currentChannelVariableDecl.setType(EcoreUtil.copy(typedChannelDeclaration.getTypes().get(0)));
                 } else {
                     TupleType tupleType = sdveFactory.createTupleType();
-                    tupleType.getTypes().addAll(typedChannelDeclaration.getTypes());
+                    tupleType.getTypes().addAll(EcoreUtil.copyAll(typedChannelDeclaration.getTypes()));
                     currentChannelVariableDecl.setType(tupleType);
                 }
 

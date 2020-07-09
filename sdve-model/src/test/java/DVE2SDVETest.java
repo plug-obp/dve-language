@@ -56,12 +56,12 @@ public class DVE2SDVETest {
         transform(testFile);
     }
 
-//
-//    @Test
-//    public void testBig() {
-//        File testFile = new File("../beem-benchmark/original-benchmark/plc/generated_files/plc.4.dve");
-//        transform(testFile);
-//    }
+
+    @Test
+    public void testBig() {
+        File testFile = new File("../beem-benchmark/original-benchmark/plc/generated_files/plc.4.dve");
+        transform(testFile);
+    }
 
     @Test
     public void testBenchmark() {
@@ -128,6 +128,7 @@ public class DVE2SDVETest {
 //            java.lang.System.out.println(PrettyPrinter.toString(flatSystem));
 
             SDVE.model.System flatSystem2 = FlattenTransitions.flatten(flatSystem);
+            Normalizer.normalize(flatSystem2);
             assertTrue("flatten expressions  "+ testFile, flatSystem2 != null);
 //            java.lang.System.out.println("\n-------Normalized FLAT SDVE 2--------->\n");
 //            java.lang.System.out.println(PrettyPrinter.toString(flatSystem2));

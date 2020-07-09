@@ -6,6 +6,7 @@ import SDVE.model.ModelFactory;
 import SDVE.model.System;
 import SDVE.model.Transition;
 import SDVE.model.*;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -53,12 +54,12 @@ public class BufferedChannelFlattening {
                 TypedChannelDeclaration typedChannelDeclaration = (TypedChannelDeclaration) channelDeclaration;
 
                 BufferType bufferType = sdveFactory.createBufferType();
-                bufferType.setSize(typedChannelDeclaration.getBufferSize());
+                bufferType.setSize(EcoreUtil.copy(typedChannelDeclaration.getBufferSize()));
                 if (typedChannelDeclaration.getTypes().size() == 1) {
-                    bufferType.setType(typedChannelDeclaration.getTypes().get(0));
+                    bufferType.setType(EcoreUtil.copy(typedChannelDeclaration.getTypes().get(0)));
                 } else {
                     TupleType tupleType = sdveFactory.createTupleType();
-                    tupleType.getTypes().addAll(typedChannelDeclaration.getTypes());
+                    tupleType.getTypes().addAll(EcoreUtil.copyAll(typedChannelDeclaration.getTypes()));
                     bufferType.setType(tupleType);
                 }
                 bufferVariable.setType(bufferType);

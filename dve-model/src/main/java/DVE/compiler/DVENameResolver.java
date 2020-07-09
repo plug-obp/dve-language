@@ -30,7 +30,8 @@ public class DVENameResolver {
 	
 	Set<Reference> unresolvedSet = new HashSet<Reference>();
 	boolean failed = false;
-	
+
+	//anonymous subclass
 	ModelSwitch<Boolean> modelSwitch = new ModelSwitch<Boolean>() {
 		
 		public Boolean caseSystem(DVE.model.System object) {

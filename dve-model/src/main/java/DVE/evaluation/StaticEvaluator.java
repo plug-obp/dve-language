@@ -49,11 +49,6 @@ public class StaticEvaluator {
 				rhsV = ((NumberLiteral)rhsLit).getValue();
 			}
 
-//			NumberLiteral lhs = (NumberLiteral)doSwitch(object.getOperands().get(0));
-//			NumberLiteral rhs = (NumberLiteral)doSwitch(object.getOperands().get(1));
-//			if (lhs == null || rhs == null) return null;
-//			BigInteger lhsV = lhs.getValue();
-//			BigInteger rhsV = rhs.getValue();
 			boolean lhsIsTrue = ! lhsV.equals(BigInteger.ZERO);
 			boolean rhsIsTrue = ! rhsV.equals(BigInteger.ZERO);
 			switch(object.getOperator()) {
@@ -101,9 +96,10 @@ public class StaticEvaluator {
 			}
 			return null;
 		}
-		
+
 		public Literal caseVariableReference(DVE.model.VariableReference object) {
 			if (object.getRef().getInitial() != null) {
+				if (! (object.getRef() instanceof ConstantDeclaration)) return null;
 				return doSwitch(object.getRef().getInitial());
 			}
 			return null;
@@ -131,10 +127,6 @@ public class StaticEvaluator {
 		}
 		public Literal caseLiteral(Literal object) { 
 			return object;
-		}
-		public Literal caseExpression(Expression object) {
-			//System.err.println("the object is not a static expression");
-			return null;
 		}
 	};
 	
