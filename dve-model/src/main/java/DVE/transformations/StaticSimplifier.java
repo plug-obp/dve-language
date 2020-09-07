@@ -169,10 +169,10 @@ public class StaticSimplifier {
                 } else {
                     element.setGuard((Expression) doSwitch(object.getGuard()));
                 }
+            }
 
-                for (EObject assignement : object.getEffect()) {
-                    element.getEffect().add((Assignment) doSwitch(assignement));
-                }
+            for (EObject assignement : object.getEffect()) {
+                element.getEffect().add((Assignment) doSwitch(assignement));
             }
 
             return element;

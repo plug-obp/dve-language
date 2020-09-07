@@ -120,9 +120,12 @@ public class FlattenTransitions {
         }
     };
     ModelSwitch<EObject> dveModelSwitch = new ModelSwitch<EObject>() {
+        boolean inLhs = false;
         @Override
         public EObject caseAssignment(Assignment object) {
+            inLhs = true;
             object.setLhs((Expression) doSwitch(object.getLhs()));
+            inLhs = false;
             object.setRhs((Expression) doSwitch(object.getRhs()));
             return object;
         }
@@ -184,6 +187,10 @@ public class FlattenTransitions {
             IndexedExpression expression = dveModelFactory.createIndexedExpression();
             expression.setIndex(index);
             expression.setBase(base);
+
+            if (inLhs == true) {
+                return expression;
+            }
 
             VariableReference temp = createTemp(TypeInference.getType(expression));
             Assignment assignment = dveModelFactory.createAssignment();

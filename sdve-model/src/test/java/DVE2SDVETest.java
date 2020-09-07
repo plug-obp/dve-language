@@ -64,6 +64,12 @@ public class DVE2SDVETest {
     }
 
     @Test
+    public void testPeterson2() {
+        File testFile = new File("../beem-benchmark/original-benchmark/peterson/generated_files/peterson.2.dve");
+        transform(testFile);
+    }
+
+    @Test
     public void testBenchmark() {
         File testDir = new File("../beem-benchmark/original-benchmark");
 
@@ -130,8 +136,8 @@ public class DVE2SDVETest {
             SDVE.model.System flatSystem2 = FlattenTransitions.flatten(flatSystem);
             Normalizer.normalize(flatSystem2);
             assertTrue("flatten expressions  "+ testFile, flatSystem2 != null);
-//            java.lang.System.out.println("\n-------Normalized FLAT SDVE 2--------->\n");
-//            java.lang.System.out.println(PrettyPrinter.toString(flatSystem2));
+            java.lang.System.out.println("\n-------Normalized FLAT SDVE 2--------->\n");
+            java.lang.System.out.println(PrettyPrinter.toString(flatSystem2));
             PrettyPrinter.toString(flatSystem2);
         } catch (Exception e) {
             java.lang.System.err.println("testing "+ testFile);
