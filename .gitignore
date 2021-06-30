@@ -10,3 +10,4 @@
 .BEEM.trace.swp
 /.build.gradle.swp
 **/*.lock
+**/*.iml
