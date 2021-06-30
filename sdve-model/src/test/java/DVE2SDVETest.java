@@ -70,6 +70,12 @@ public class DVE2SDVETest {
     }
 
     @Test
+    public void testBridge1() {
+        File testFile = new File("../beem-benchmark/original-benchmark/bridge/generated_files/bridge.1.dve");
+        transform(testFile);
+    }
+
+    @Test
     public void testBenchmark() {
         File testDir = new File("../beem-benchmark/original-benchmark");
 
