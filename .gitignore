@@ -11,3 +11,4 @@
 /.build.gradle.swp
 **/*.lock
 **/*.iml
+**/*.idea
