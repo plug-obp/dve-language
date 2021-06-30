@@ -123,7 +123,13 @@ public class TypeInference {
                 case MULT:
                 case DIV:
                 case MOD:
-                    return dveFactory.createIntegerType();
+                    Type lhsType = doSwitch(object.getOperands().get(0));
+                    Type rhsType = doSwitch(object.getOperands().get(1));
+                    if (lhsType instanceof IntegerType || rhsType instanceof IntegerType) {
+                        return dveFactory.createIntegerType();
+                    } else {
+                        return dveFactory.createByteType();
+                    }
             }
             return null;
         }
