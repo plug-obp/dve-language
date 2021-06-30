@@ -64,7 +64,7 @@ public class DVEConfigurationSize {
 
         @Override
         public Integer caseIntegerType(IntegerType object) {
-            return 2*8;
+            return 2*4;
         }
 
         @Override
