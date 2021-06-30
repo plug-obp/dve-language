@@ -3,12 +3,15 @@ version = '1.0.0'
 repositories {
 	mavenCentral()
 	maven {
-		url "https://dl.bintray.com/plug-obp/maven"
+		url "/Users/ciprian/Playfield/bintray-backup/plug-obp/maven"
 		metadataSources {
 			mavenPom()
 			artifact()
 			ignoreGradleMetadataRedirection()
 		}
+	}
+	maven {
+		url "/Users/ciprian/Playfield/maven_repository"
 	}
 }
 

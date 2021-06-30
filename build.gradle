@@ -34,29 +34,29 @@ subprojects {
         }
     }
 
-    bintray {
-        user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-        key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    // bintray {
+    //     user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    //     key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
 
-        publications = ['mavenJava']
+    //     publications = ['mavenJava']
 
-        pkg {
-            name = project.group
-            repo = 'maven'
-            userOrg = 'plug-obp'
-            desc = 'DVE language artifacts'
-            vcsUrl = 'https://github.com/plug-obp'
-            websiteUrl = 'http://www.obpcdl.org'
-            licenses = ['MIT']
-            publicDownloadNumbers = true
-            override = true
-            publish = true
+    //     pkg {
+    //         name = project.group
+    //         repo = 'maven'
+    //         userOrg = 'plug-obp'
+    //         desc = 'DVE language artifacts'
+    //         vcsUrl = 'https://github.com/plug-obp'
+    //         websiteUrl = 'http://www.obpcdl.org'
+    //         licenses = ['MIT']
+    //         publicDownloadNumbers = true
+    //         override = true
+    //         publish = true
 
-            //Optional version descriptor
-            version {
-                name = project.version //Bintray logical version name
-            }
-        }
-    }
+    //         //Optional version descriptor
+    //         version {
+    //             name = project.version //Bintray logical version name
+    //         }
+    //     }
+    // }
 
 }

@@ -2,7 +2,7 @@ buildscript {
     repositories {
 		mavenCentral()
         maven {
-            url "https://dl.bintray.com/ciprian-teodorov/CipT-artefacts/"
+            url = uri("file:///Users/ciprian/Playfield/maven_repository")
         }
     }
     dependencies {
