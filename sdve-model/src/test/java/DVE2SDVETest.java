@@ -5,6 +5,8 @@ import org.junit.Test;
 import sdve.transformations.*;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -143,8 +145,32 @@ public class DVE2SDVETest {
             Normalizer.normalize(flatSystem2);
             assertTrue("flatten expressions  "+ testFile, flatSystem2 != null);
             java.lang.System.out.println("\n-------Normalized FLAT SDVE 2--------->\n");
-            java.lang.System.out.println(PrettyPrinter.toString(flatSystem2));
-            PrettyPrinter.toString(flatSystem2);
+
+            // Process output file name
+            String fileName = testFile.getName();
+            java.lang.System.out.println("Processing: "+ fileName);
+            java.lang.System.out.println("Processing: "+ fileName);
+            String outputDirectoryName =  "/home/quentin/Desktop/sdve-beem-benchmark/" + fileName.split("\\.")[0];
+            File directory = new File(outputDirectoryName);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            String outputFileName =  fileName.substring(0, fileName.lastIndexOf('.')) + ".sdve";
+            String writePath = outputDirectoryName + "/" + outputFileName;
+            // Process the DVE to SDVE
+            String sdveRepresentation = PrettyPrinter.toString(flatSystem2);
+            // Write a SDVE file
+            // java.lang.System.out.println(sdveRepresentation);
+            java.lang.System.out.println("Writing to " + writePath);
+            try {
+                FileWriter myWriter = new FileWriter(writePath);
+                myWriter.write(sdveRepresentation);
+                myWriter.close();
+            } catch (IOException e) {
+                java.lang.System.err.println("Error writing to "+ fileName);
+                e.printStackTrace();
+            }
+
         } catch (Exception e) {
             java.lang.System.err.println("testing "+ testFile);
             e.printStackTrace();

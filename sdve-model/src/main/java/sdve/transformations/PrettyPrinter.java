@@ -60,7 +60,7 @@ public class PrettyPrinter {
         public String caseTransition(Transition object) {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("\tProcess ").append(object.getProcess()).append(" ");
+            sb.append("\tprocess ").append(object.getProcess()).append(" ");
 
             sb.append("\n\t\t");
             if (object.getGuard() != null) {
@@ -99,11 +99,11 @@ public class PrettyPrinter {
         public String caseFlatTransition(FlatTransition object) {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("\tProcess ").append(object.getProcess()).append(" ");
+            sb.append("\tprocess ").append(object.getProcess()).append(" ");
 
             sb.append("\n\t\t");
             if (!object.getGuardBlock().isEmpty()) {
-                sb.append("guardBlock ");
+                sb.append("guardBlock");
 
                 int n = object.getGuardBlock().size();
                 for (Assignment assignment : object.getGuardBlock()) {
@@ -127,7 +127,7 @@ public class PrettyPrinter {
 
             sb.append("\n\t\t");
             if (!object.getEffect().isEmpty()) {
-                sb.append("effect ");
+                sb.append("effect");
 
                 int n = object.getEffect().size();
                 for (Assignment assignment : object.getEffect()) {
@@ -148,7 +148,7 @@ public class PrettyPrinter {
         @Override
         public String caseStateType(StateType object) {
             StringBuilder sb = new StringBuilder();
-            sb.append("StateType {");
+            sb.append("state {");
             boolean first = true;
             for (State state : object.getStates()) {
                 if (first) {
@@ -226,14 +226,14 @@ public class PrettyPrinter {
 
         @Override
         public String caseBitType(BitType object) {
-            return "Bit";
+            return "bool";
         }
 
         @Override
         public String caseTransientVariableDeclaration(TransientVariableDeclaration object) {
             StringBuffer sb = new StringBuffer();
 
-            sb.append("transient ");
+            sb.append("temp ");
             sb.append(doSwitch(object.getType()));
             sb.append(" ");
             sb.append(object.getName());

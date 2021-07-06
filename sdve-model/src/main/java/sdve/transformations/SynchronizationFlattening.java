@@ -143,7 +143,7 @@ public class SynchronizationFlattening {
 
         Transition compositeTransition = sdveFactory.createTransition();
 
-        compositeTransition.setProcess(outputTransition.getProcess() + "-" + inputTransition.getProcess());
+        compositeTransition.setProcess(outputTransition.getProcess() + "_" + inputTransition.getProcess());
         compositeTransition.setSync(null);
 
         if (outputTransition.getGuard() != null && inputTransition.getGuard() != null) {
