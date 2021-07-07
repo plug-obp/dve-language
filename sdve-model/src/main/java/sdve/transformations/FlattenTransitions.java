@@ -30,12 +30,12 @@ public class FlattenTransitions {
 
     VariableReference createTemp(Type type) {
         TransientVariableDeclaration transientVariableDeclaration = sdveModelFactory.createTransientVariableDeclaration();
-        transientVariableDeclaration.setName("%t_"+id);
+        transientVariableDeclaration.setName("t_"+id);
         transientVariableDeclaration.setType(type);
 
         system.getDeclarations().add(transientVariableDeclaration);
         VariableReference reference = dveModelFactory.createVariableReference();
-        reference.setRefName("%t_"+id++);
+        reference.setRefName("t_"+id++);
         reference.setRef(transientVariableDeclaration);
         return reference;
     }
