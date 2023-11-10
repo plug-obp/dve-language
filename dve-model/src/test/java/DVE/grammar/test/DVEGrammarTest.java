@@ -29,7 +29,21 @@ public class DVEGrammarTest {
 		assertParse("int");
 		assertParse("byte");
 	}
-	
+
+	@Test
+	public void testAnderson2() {
+		File testDir = new File("../beem-benchmark/original-benchmark/anderson/generated_files/anderson.2.dve");
+
+		assertFile(testDir.getAbsolutePath());
+	}
+
+	@Test
+	public void testPeterson2() {
+		File testDir = new File("../beem-benchmark/original-benchmark/peterson/generated_files/peterson.2.dve");
+
+		assertFile(testDir.getAbsolutePath());
+	}
+
 	@Test
 	public void testExamples() {
 		File testDir = new File("../beem-benchmark/original-benchmark");
